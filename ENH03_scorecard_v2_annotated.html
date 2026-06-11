@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENH-03 Granular Scorecard — v2 Annotated Mockup</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #EFEFEF;
+    color: #1A1A1A;
+    padding: 32px 24px 64px;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #D0D0D0;
+  }
+  .page-header h1 { font-size: 18px; font-weight: 600; color: #1A1A1A; }
+  .page-header p  { font-size: 13px; color: #666; margin-top: 4px; }
+  .meta-row { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+  .meta-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fff; border: 1px solid #D8D8D8; border-radius: 6px;
+    padding: 4px 10px; font-size: 12px; color: #444;
+  }
+  .meta-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-orange { background: #E87B2E; }
+  .dot-blue   { background: #3B7DD8; }
+  .dot-green  { background: #27824A; }
+
+  /* ── LEGEND ── */
+  .legend {
+    max-width: 1200px; margin: 0 auto 28px;
+    background: #fff; border: 1px solid #D8D8D8; border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .legend h2 { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+  .legend-grid { display: flex; gap: 24px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #444; }
+  .ann-badge {
+    width: 18px; height: 18px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .ann-badge.removed  { background: #C0392B; }
+  .ann-badge.changed  { background: #E87B2E; }
+  .ann-badge.new      { background: #27824A; }
+  .ann-badge.same     { background: #888; }
+
+  /* ── LAYOUT: two screens side by side ── */
+  .screens-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .screen-col {}
+  .screen-label {
+    font-size: 11px; font-weight: 600; color: #888;
+    text-transform: uppercase; letter-spacing: .07em;
+    margin-bottom: 8px;
+  }
+
+  /* ── ANNOTATION WRAPPER ── */
+  .ann-wrap {
+    position: relative;
+  }
+  /* numbered callout bubble */
+  .callout {
+    position: absolute;
+    z-index: 10;
+    display: flex; align-items: center; gap: 6px;
+    pointer-events: none;
+  }
+  .callout-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #fff;
+    flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  }
+  .callout-line {
+    height: 1px; flex-shrink: 0;
+    opacity: .7;
+  }
+  .callout-text {
+    background: #fff; border: 1px solid #D0D0D0; border-radius: 6px;
+    padding: 5px 9px; font-size: 11px; line-height: 1.45;
+    color: #333; max-width: 190px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    white-space: normal;
+  }
+  .callout-text strong { font-weight: 600; }
+  .callout-text .tag {
+    display: inline-block; border-radius: 3px;
+    padding: 1px 5px; font-size: 10px; font-weight: 600; margin-right: 3px;
+  }
+  .tag-removed { background: #FDECEA; color: #C0392B; }
+  .tag-changed { background: #FFF3E0; color: #874A00; }
+  .tag-new     { background: #EBF6EE; color: #1B5E34; }
+
+  /* ── DEVICE FRAME ── */
+  :root {
+    --brand: #E87B2E;
+    --border-c: #E0E0E0;
+  }
+  .device {
+    background: #F5F5F5;
+    border: 1px solid #C8C8C8;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  /* nav */
+  .nav {
+    background: #fff; border-bottom: 1px solid var(--border-c);
+    height: 48px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 16px;
+  }
+  .nav-logo { font-size: 16px; font-weight: 700; letter-spacing: -.5px; color: #1A1A1A; }
+  .nav-logo span { color: var(--brand); }
+  .nav-r { display: flex; align-items: center; gap: 10px; }
+  .nav-bell { position: relative; }
+  .nav-bell i { font-size: 18px; color: #666; }
+  .nbadge {
+    position: absolute; top: -3px; right: -4px;
+    background: var(--brand); color: #fff; font-size: 9px; font-weight: 700;
+    border-radius: 99px; padding: 1px 4px; line-height: 1.4;
+  }
+  .nav-av {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--brand); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+  }
+  .nav-un { font-size: 12px; color: #666; }
+
+  /* action bar */
+  .abar {
+    background: #fff; border-bottom: 1px solid var(--border-c);
+    height: 44px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 16px;
+  }
+  .abar-back { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
+  .abar-r { display: flex; align-items: center; gap: 8px; }
+
+  /* buttons */
+  .btn-primary {
+    background: var(--brand); color: #fff; border: none;
+    border-radius: 7px; padding: 6px 13px; font-size: 12px; font-weight: 500;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .btn-outline {
+    background: transparent; color: var(--brand);
+    border: 1px solid var(--brand); border-radius: 7px;
+    padding: 5px 12px; font-size: 12px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .btn-sec {
+    background: #fff; color: #555; border: 1px solid var(--border-c);
+    border-radius: 7px; padding: 5px 11px; font-size: 12px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  /* page body */
+  .body { background: #F5F5F5; padding: 13px 14px; display: flex; flex-direction: column; gap: 11px; }
+
+  /* header card (merged) */
+  .header-card {
+    background: #fff; border: 1px solid var(--border-c); border-radius: 11px;
+    padding: 13px 15px; display: flex; align-items: center; gap: 13px;
+  }
+  .hc-icon {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #FDECEA; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+  }
+  .hc-icon svg { width: 17px; height: 17px; stroke: #C0392B; fill: none; stroke-width: 2; stroke-linecap: round; }
+  .hc-title { font-size: 13px; font-weight: 600; color: #1A1A1A; line-height: 1.3; }
+  .hc-sub   { font-size: 11px; color: #888; margin-top: 2px; }
+  .hc-score { margin-left: auto; text-align: right; flex-shrink: 0; }
+  .hc-pct   { font-size: 21px; font-weight: 700; color: #C0392B; }
+  .hc-pill  { font-size: 11px; font-weight: 600; border-radius: 99px; padding: 2px 9px; margin-top: 3px; display: inline-block; background: #FDECEA; color: #C0392B; }
+
+  /* section label */
+  .sec-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: .06em; padding: 0 2px 5px; }
+
+  /* accordion */
+  .acc { background: #fff; border: 1px solid var(--border-c); border-radius: 11px; overflow: hidden; }
+
+  .cat-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 13px; background: #FAFAFA;
+    border-bottom: 1px solid #F0F0F0; cursor: pointer;
+  }
+  .cat-row.last { border-bottom: none; }
+  .chev { font-size: 12px; color: #AAA; flex-shrink: 0; }
+  .chev.open { transform: rotate(180deg); }
+  .chev svg { width: 12px; height: 12px; stroke: #AAA; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .chev.open svg { transform: rotate(180deg); }
+  .cat-name   { font-size: 13px; font-weight: 500; color: #1A1A1A; flex: 1; }
+  .cat-qcount { font-size: 11px; color: #AAA; flex-shrink: 0; }
+
+  .score-chip { border-radius: 99px; padding: 2px 9px; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .sc-good { background: #EBF6EE; color: #1B5E34; }
+  .sc-bad  { background: #FCEBEB; color: #791F1F; }
+  .sc-mid  { background: #FFF3E0; color: #633806; }
+
+  /* question rows */
+  .q-row {
+    display: flex; align-items: center; gap: 7px;
+    padding: 7px 13px 7px 28px;
+    border-bottom: 1px solid #F5F5F5;
+    background: #fff; flex-wrap: wrap;
+  }
+  .q-row.last { border-bottom: none; }
+  .q-dot { width: 5px; height: 5px; border-radius: 50%; background: #D0D0D0; flex-shrink: 0; }
+  .q-name { font-size: 12px; color: #555; flex: 1; line-height: 1.35; min-width: 0; }
+  .q-score { font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .q-score.good { color: #27824A; }
+  .q-score.bad  { color: #C0392B; }
+
+  .q-ai-btn {
+    background: transparent; border: 1px solid #E0D5CC; border-radius: 5px;
+    padding: 2px 6px; font-size: 11px; color: #B06020; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 3px; flex-shrink: 0;
+  }
+  .q-ai-btn svg { width: 11px; height: 11px; stroke: #B06020; fill: none; stroke-width: 1.5; }
+  .q-ai-btn.active { border-color: var(--brand); color: var(--brand); }
+  .q-ai-btn.active svg { stroke: var(--brand); }
+
+  .q-edit-btn {
+    background: transparent; border: 1px solid var(--border-c); border-radius: 5px;
+    padding: 2px 6px; font-size: 11px; color: #AAA; cursor: pointer;
+    display: inline-flex; align-items: center; flex-shrink: 0;
+  }
+  .q-edit-btn svg { width: 11px; height: 11px; stroke: #AAA; fill: none; stroke-width: 1.5; }
+  .q-edit-btn.adjusted { border-color: var(--brand); }
+  .q-edit-btn.adjusted svg { stroke: var(--brand); }
+
+  /* manual adjustment badge */
+  .adj-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    background: #FFF3CD; color: #856404; border: 1px solid #FFEAA0;
+    border-radius: 4px; padding: 1px 6px; font-size: 10px; font-weight: 500; margin-left: 4px;
+  }
+
+  /* AI panel */
+  .ai-panel {
+    width: 100%; margin-top: 6px;
+    background: #FFF8F3; border-left: 2px solid var(--brand);
+    border-radius: 0 7px 7px 0; padding: 7px 10px;
+  }
+  .ai-text  { font-size: 12px; color: #555; line-height: 1.45; }
+  .ai-quote { font-size: 11px; color: #999; border-top: 1px solid #F0E8E0; margin-top: 5px; padding-top: 5px; font-style: italic; }
+
+  /* replay */
+  .replay { background: #fff; border: 1px solid var(--border-c); border-radius: 11px; overflow: hidden; }
+  .replay-hdr { padding: 10px 14px 8px; border-bottom: 1px solid #F0F0F0; display: flex; align-items: center; justify-content: space-between; }
+  .replay-hdr-title { font-size: 13px; font-weight: 500; color: #1A1A1A; }
+  .audio { display: flex; align-items: center; gap: 9px; padding: 10px 14px; }
+  .play-btn { width: 26px; height: 26px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .play-btn svg { width: 11px; height: 11px; fill: #fff; margin-left: 1px; }
+  .a-time  { font-size: 11px; color: #AAA; min-width: 64px; }
+  .a-track { flex: 1; height: 3px; background: #E0E0E0; border-radius: 99px; }
+  .a-prog  { width: 14%; height: 100%; background: #555; border-radius: 99px; }
+  .transcript-row { padding: 8px 14px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .transcript-lbl { font-size: 13px; font-weight: 500; }
+
+  /* ── ANNOTATION SIDEBAR TABLE ── */
+  .ann-section {
+    max-width: 1200px; margin: 32px auto 0;
+    background: #fff; border: 1px solid #D0D0D0; border-radius: 11px; overflow: hidden;
+  }
+  .ann-section-hdr {
+    background: #F8F8F8; border-bottom: 1px solid #E8E8E8;
+    padding: 12px 18px; font-size: 12px; font-weight: 600;
+    color: #444; text-transform: uppercase; letter-spacing: .07em;
+  }
+  .ann-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .ann-table th {
+    background: #F8F8F8; padding: 8px 14px; text-align: left;
+    font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase;
+    letter-spacing: .05em; border-bottom: 1px solid #E8E8E8;
+  }
+  .ann-table td {
+    padding: 10px 14px; border-bottom: 1px solid #F0F0F0;
+    vertical-align: top; color: #333; line-height: 1.5;
+  }
+  .ann-table tr:last-child td { border-bottom: none; }
+  .ann-table tr:hover td { background: #FAFAFA; }
+  .ann-table td:first-child { width: 36px; }
+  .ann-table td:nth-child(2) { width: 140px; font-weight: 500; color: #1A1A1A; }
+  .ann-table td:nth-child(3) { width: 110px; }
+  .ann-table td:nth-child(4) { }
+  .ann-table td:nth-child(5) { color: #666; font-style: italic; width: 200px; }
+  .type-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    border-radius: 99px; padding: 2px 9px; font-size: 11px; font-weight: 600;
+  }
+  .type-removed { background: #FDECEA; color: #C0392B; }
+  .type-changed  { background: #FFF3E0; color: #874A00; }
+  .type-new      { background: #EBF6EE; color: #1B5E34; }
+  .type-same     { background: #F0F0F0; color: #666; }
+  .screen-tag {
+    display: inline-block; border-radius: 4px; padding: 1px 6px;
+    font-size: 10px; font-weight: 600; background: #EEF4FF; color: #2B5DB5;
+  }
+  .screen-tag.both { background: #F0F0F0; color: #555; }
+
+  /* ── ICON SVGs inline ── */
+  svg { display: inline-block; vertical-align: middle; }
+
+  /* ── CHANGE CALLOUT BOXES on mockups ── */
+  .mockup-ann {
+    background: #fff; border: 1px solid #D0D0D0; border-radius: 9px;
+    padding: 10px 13px; margin-top: 12px; font-size: 12px;
+  }
+  .mockup-ann-hdr {
+    font-size: 11px; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px;
+  }
+  .mockup-ann-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    margin-bottom: 6px; line-height: 1.5; color: #444;
+  }
+  .mockup-ann-item:last-child { margin-bottom: 0; }
+
+  @media (max-width: 800px) {
+    .screens-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>ENH-03 — Granular evaluation scorecard &nbsp;·&nbsp; v2 annotated mockup</h1>
+  <p>Reference designs for development vendor. Duplicate the closest existing frame in Figma as base. Page: v3.1 Enhancements.</p>
+  <div class="meta-row">
+    <div class="meta-pill"><span class="dot dot-orange"></span> Both screens are modifications of the existing scorecard result screen</div>
+    <div class="meta-pill"><span class="dot dot-blue"></span> Numbered annotations correspond to the change log table below</div>
+    <div class="meta-pill"><span class="dot dot-green"></span> Good-to-have items (ENH-03-03, ENH-03-06) are tagged in the table</div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <h2>Annotation key</h2>
+  <div class="legend-grid">
+    <div class="legend-item"><div class="ann-badge removed">R</div> <strong>Removed</strong> — element deleted from v1</div>
+    <div class="legend-item"><div class="ann-badge changed">C</div> <strong>Changed</strong> — element modified in place</div>
+    <div class="legend-item"><div class="ann-badge new">N</div> <strong>New</strong> — element added that did not exist in v1</div>
+    <div class="legend-item"><div class="ann-badge same">S</div> <strong>Same</strong> — element unchanged from v1</div>
+  </div>
+</div>
+
+<!-- SCREENS SIDE BY SIDE -->
+<div class="screens-row">
+
+  <!-- ── SCREEN 1: TRAINEE ── -->
+  <div>
+    <div class="screen-label">Screen 1 — Trainee view</div>
+
+    <div class="device">
+      <!-- Nav -->
+      <div class="nav">
+        <div class="nav-logo">td<span>c</span>x</div>
+        <div class="nav-r">
+          <div class="nav-bell">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#666" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="nbadge">9+</span>
+          </div>
+          <div class="nav-av">CC</div>
+          <span class="nav-un">Cadence Cheo Trainee ▾</span>
+        </div>
+      </div>
+      <!-- Action bar -->
+      <div class="abar">
+        <div class="abar-back">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="#666" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          CS_Escalation_Billing_Premium_Retail_Hard_v2
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="body">
+
+        <!-- [ANN-1] Merged header card -->
+        <div class="header-card" id="s1-header">
+          <div class="hc-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div>
+            <div class="hc-title">Assessment failed</div>
+            <div class="hc-sub">CS_Escalation_Billing_Premium_Retail_Hard_v2 &nbsp;·&nbsp; Pass mark: 70%</div>
+          </div>
+          <div class="hc-score">
+            <div class="hc-pct">42%</div>
+            <div class="hc-pill">Failed</div>
+          </div>
+        </div>
+
+        <!-- Accordion -->
+        <div>
+          <div class="sec-label">Evaluation metrics</div>
+          <div class="acc">
+
+            <!-- Cat 1 expanded -->
+            <div class="cat-row" id="s1-cat1">
+              <span class="chev open">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+              <span class="cat-name">Opening &amp; greeting</span>
+              <!-- [ANN-2] question count inline -->
+              <span class="cat-qcount">5 Qs</span>
+              <!-- [ANN-3] score chip replaces bar -->
+              <span class="score-chip sc-good">3 / 5</span>
+            </div>
+
+            <div class="q-row" id="s1-q1">
+              <div class="q-dot"></div>
+              <span class="q-name">Used proper greeting and stated company name</span>
+              <span class="q-score good" style="margin-right:5px;">1 / 1</span>
+              <!-- [ANN-4] icon-only AI toggle -->
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+            </div>
+
+            <div class="q-row" id="s1-q2">
+              <div class="q-dot"></div>
+              <span class="q-name">Verified customer identity within first 30 seconds</span>
+              <span class="q-score bad" style="margin-right:5px;">0 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+            </div>
+
+            <!-- AI panel expanded example -->
+            <div class="q-row" id="s1-q3">
+              <div class="q-dot"></div>
+              <span class="q-name" style="flex:1;">Set a clear agenda for the call</span>
+              <span class="q-score good" style="margin-right:5px;">1 / 1</span>
+              <button class="q-ai-btn active" aria-label="Hide AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(180deg)"><polyline points="6 9 12 15 18 9"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <!-- [ANN-5] AI panel inline -->
+              <div class="ai-panel" id="s1-ai-panel">
+                <div class="ai-text">Agent outlined steps clearly: verify, diagnose, resolve. Sets customer expectations before diving in.</div>
+                <div class="ai-quote">"Let me pull up your account, then walk you through the fix step by step." — 0:14</div>
+              </div>
+            </div>
+
+            <div class="q-row">
+              <div class="q-dot"></div>
+              <span class="q-name">Expressed empathy at the start of the call</span>
+              <span class="q-score bad" style="margin-right:5px;">0 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+            </div>
+
+            <div class="q-row last">
+              <div class="q-dot"></div>
+              <span class="q-name">Confirmed customer's issue before proceeding</span>
+              <span class="q-score good" style="margin-right:5px;">1 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+            </div>
+
+            <!-- Collapsed categories -->
+            <div class="cat-row" id="s1-cat2">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Problem diagnosis</span>
+              <span class="cat-qcount">4 Qs</span>
+              <span class="score-chip sc-bad">1 / 4</span>
+            </div>
+
+            <div class="cat-row" id="s1-cat3">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Resolution &amp; follow-through</span>
+              <span class="cat-qcount">6 Qs</span>
+              <span class="score-chip sc-mid">2 / 6</span>
+            </div>
+
+            <div class="cat-row last" id="s1-cat4">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Communication &amp; rapport building</span>
+              <span class="cat-qcount">3 Qs</span>
+              <span class="score-chip sc-bad">0 / 3</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Replay -->
+        <div class="replay">
+          <div class="replay-hdr"><span class="replay-hdr-title">Replay conversation</span></div>
+          <div class="audio">
+            <div class="play-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <span class="a-time">0:00 / 2:01</span>
+            <div class="a-track"><div class="a-prog"></div></div>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="#AAA" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </div>
+          <div class="transcript-row">
+            <span class="transcript-lbl">Transcript</span>
+            <button class="btn-sec">
+              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Per-screen annotation list -->
+    <div class="mockup-ann">
+      <div class="mockup-ann-hdr">Screen 1 changes</div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-1</strong> — Result banner + score strip merged into one header card. See table row 1.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-2</strong> — Question count moved inline in category row ("5 Qs"). Collapsed hint row removed.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-3</strong> — Score bar replaced with coloured score chip pill.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-4</strong> — AI explanation toggle moved to icon-only sparkle button, inline with score.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge same" style="width:18px;height:18px;font-size:9px;">S</div>
+        <div><strong>Ann-5</strong> — AI panel expand/collapse behaviour unchanged. Panel shown expanded on row 3.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: TRAINER ── -->
+  <div>
+    <div class="screen-label">Screen 2 — Trainer view</div>
+
+    <div class="device">
+      <!-- Nav -->
+      <div class="nav">
+        <div class="nav-logo">td<span>c</span>x</div>
+        <div class="nav-r">
+          <div class="nav-bell">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#666" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="nbadge">4</span>
+          </div>
+          <div class="nav-av">CC</div>
+          <span class="nav-un">Cadence Cheo Trainer ▾</span>
+        </div>
+      </div>
+      <!-- Action bar -->
+      <div class="abar" id="s2-abar">
+        <div class="abar-back">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="#666" fill="none" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Website issue
+        </div>
+        <div class="abar-r">
+          <!-- [ANN-6] export button -->
+          <button class="btn-outline">
+            <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Export all scorecards
+          </button>
+          <button class="btn-primary">Mark as reviewed</button>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="body">
+
+        <!-- Merged header card -->
+        <div class="header-card">
+          <div class="hc-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div>
+            <div class="hc-title">Cadence Cheo Trainee — assessment failed</div>
+            <div class="hc-sub">Website issue &nbsp;·&nbsp; Pass mark: 70% &nbsp;·&nbsp; 4 categories</div>
+          </div>
+          <div class="hc-score">
+            <div class="hc-pct">42%</div>
+            <div class="hc-pill">Failed</div>
+          </div>
+        </div>
+
+        <!-- Accordion -->
+        <div>
+          <div class="sec-label">Evaluation metrics</div>
+          <div class="acc">
+
+            <div class="cat-row">
+              <span class="chev open"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Opening &amp; greeting</span>
+              <span class="cat-qcount">5 Qs</span>
+              <span class="score-chip sc-good">3 / 5</span>
+            </div>
+
+            <!-- q1: normal -->
+            <div class="q-row" id="s2-q1">
+              <div class="q-dot"></div>
+              <span class="q-name">Used proper greeting and stated company name</span>
+              <span class="q-score good" style="margin-right:4px;">1 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <!-- [ANN-7] icon-only edit button -->
+              <button class="q-edit-btn" aria-label="Edit score">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+
+            <!-- q2: manually adjusted -->
+            <div class="q-row" id="s2-q2">
+              <div class="q-dot"></div>
+              <span class="q-name" style="flex:1;">
+                Verified customer identity within first 30 seconds
+                <!-- [ANN-8] inline adjustment badge -->
+                <span class="adj-badge">
+                  <svg viewBox="0 0 24 24" width="9" height="9" stroke="currentColor" fill="none" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  0 → 1
+                </span>
+              </span>
+              <span class="q-score good" style="margin-right:4px;">1 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <button class="q-edit-btn adjusted" aria-label="Edit score" style="border-color:#E87B2E;">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:#E87B2E;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+
+            <!-- q3: AI panel expanded -->
+            <div class="q-row">
+              <div class="q-dot"></div>
+              <span class="q-name" style="flex:1;">Set a clear agenda for the call</span>
+              <span class="q-score good" style="margin-right:4px;">1 / 1</span>
+              <button class="q-ai-btn active" aria-label="Hide AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(180deg)"><polyline points="6 9 12 15 18 9"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <button class="q-edit-btn" aria-label="Edit score">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <div class="ai-panel">
+                <div class="ai-text">Agent outlined steps clearly: verify, diagnose, resolve. Sets customer expectations before diving in.</div>
+                <div class="ai-quote">"Let me pull up your account, then walk you through the fix step by step." — 0:14</div>
+              </div>
+            </div>
+
+            <div class="q-row">
+              <div class="q-dot"></div>
+              <span class="q-name">Expressed empathy at the start of the call</span>
+              <span class="q-score bad" style="margin-right:4px;">0 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <button class="q-edit-btn" aria-label="Edit score">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+
+            <div class="q-row last">
+              <div class="q-dot"></div>
+              <span class="q-name">Confirmed customer's issue before proceeding</span>
+              <span class="q-score good" style="margin-right:4px;">1 / 1</span>
+              <button class="q-ai-btn" aria-label="Show AI explanation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+              </button>
+              <button class="q-edit-btn" aria-label="Edit score">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+
+            <!-- Collapsed cats -->
+            <div class="cat-row">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Problem diagnosis</span>
+              <span class="cat-qcount">4 Qs</span>
+              <span class="score-chip sc-bad">1 / 4</span>
+            </div>
+            <div class="cat-row">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Resolution &amp; follow-through</span>
+              <span class="cat-qcount">6 Qs</span>
+              <span class="score-chip sc-mid">2 / 6</span>
+            </div>
+            <div class="cat-row last">
+              <span class="chev"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span>
+              <span class="cat-name">Communication &amp; rapport building</span>
+              <span class="cat-qcount">3 Qs</span>
+              <span class="score-chip sc-bad">0 / 3</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Replay -->
+        <div class="replay">
+          <div class="replay-hdr"><span class="replay-hdr-title">Replay conversation</span></div>
+          <div class="audio">
+            <div class="play-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <span class="a-time">0:00 / 2:01</span>
+            <div class="a-track"><div class="a-prog"></div></div>
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="#AAA" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </div>
+          <div class="transcript-row">
+            <span class="transcript-lbl">Transcript</span>
+            <button class="btn-sec">
+              <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Per-screen annotation list -->
+    <div class="mockup-ann">
+      <div class="mockup-ann-hdr">Screen 2 changes (trainer-specific)</div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-6</strong> — "Export all scorecards" placed in action bar. Brand-outline style, left of primary button. See table row 6.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-7</strong> — Edit button reduced to icon-only pencil (no text label). Saves ~30px per row.</div>
+      </div>
+      <div class="mockup-ann-item">
+        <div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">C</div>
+        <div><strong>Ann-8</strong> — Manual adjustment shown as inline "0→1" badge next to question name. Edit button border turns orange. Replaces v1 second-line label.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CHANGE LOG TABLE -->
+<div class="ann-section">
+  <div class="ann-section-hdr">Change log — v1 → v2 &nbsp; (developer reference)</div>
+  <table class="ann-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Component</th>
+        <th>Type</th>
+        <th>What changed and why</th>
+        <th>Implementation note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">1</div></td>
+        <td>Result banner + score strip</td>
+        <td><span class="type-pill type-changed">Changed</span> <span class="screen-tag both">Both</span></td>
+        <td>Two separate components merged into one header card (~130px → ~70px). Red circle-x icon, trainee name / scenario sub-label on left. Large % + pass/fail pill on right. Eliminates duplicate score display.</td>
+        <td>Single <code>.header-card</code> flex row. Icon circle is 34×34px, bg <code>#FDECEA</code>. Score % is 21px/700. Pill is <code>#FDECEA / #C0392B</code> for fail, <code>#EBF6EE / #1B5E34</code> for pass.</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge removed" style="width:18px;height:18px;font-size:9px;">2</div></td>
+        <td>Collapsed-category hint row</td>
+        <td><span class="type-pill type-removed">Removed</span> <span class="screen-tag both">Both</span></td>
+        <td>"4 questions — click to expand" row below each collapsed category removed. Question count moved inline as muted "N Qs" label in the category row itself. Saves one full row per collapsed category.</td>
+        <td>Render <code>.cat-qcount</code> span inline in every <code>.cat-row</code>, between category name and score chip. Style: 11px, color <code>#AAA</code>.</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">3</div></td>
+        <td>Category score bar</td>
+        <td><span class="type-pill type-removed">Removed</span> <span class="screen-tag both">Both</span></td>
+        <td>Progress bar on category rows removed. Replaced with a coloured score chip pill (green/amber/red). Bar added visual noise without adding precision over the score number. Chip is faster to scan when multiple categories are visible.</td>
+        <td>Score chip: border-radius 99px, padding 2px 9px, 11px/600. Green <code>#EBF6EE / #1B5E34</code> (≥60%), red <code>#FCEBEB / #791F1F</code> (≤25%), amber <code>#FFF3E0 / #633806</code> (26–59%). Thresholds configurable.</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">4</div></td>
+        <td>AI explanation toggle</td>
+        <td><span class="type-pill type-changed">Changed</span> <span class="screen-tag both">Both</span></td>
+        <td>Toggle moved from a text link on a second line below the question name to an icon-only sparkle button at the far right of the question row (after the score). Default row is now single-line. Active state: button border changes to brand orange.</td>
+        <td>Button: 11px, border 1px solid <code>#E0D5CC</code>, color <code>#B06020</code>. Active: <code>border-color: #E87B2E; color: #E87B2E</code>. When active, chevron-up + sparkle icon. <strong>Good to have — ENH-03-03. Can be hidden if ENH-03-03 not in scope.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">5</div></td>
+        <td>AI explanation panel</td>
+        <td><span class="type-pill type-changed">Changed</span> <span class="screen-tag both">Both</span></td>
+        <td>Panel expands below the question using flex-wrap on the row container rather than a nested separate element. "Good to have" pill removed from the live UI (it was annotation-only information).</td>
+        <td>Add <code>flex-wrap: wrap</code> to <code>.q-row</code>. Panel is <code>width: 100%</code> child, bg <code>#FFF8F3</code>, <code>border-left: 2px solid #E87B2E</code>, border-radius <code>0 7px 7px 0</code>. <strong>Good to have — ENH-03-03.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge new" style="width:18px;height:18px;font-size:9px;">6</div></td>
+        <td>Export all scorecards button</td>
+        <td><span class="type-pill type-new">New</span> <span class="screen-tag">Trainer only</span></td>
+        <td>Bulk export button added to the action bar, left of the "Mark as reviewed" primary button. Brand-outline style distinguishes it from the primary action. Triggers campaign-level export: one row per question per trainee; columns: campaign, trainee, scenario, scorecard, category, question, score, AI explanation.</td>
+        <td>Button: transparent bg, 1px solid <code>#E87B2E</code>, color <code>#E87B2E</code>, 12px, border-radius 7px. Export format: CSV or Excel. <strong>Good to have — ENH-03-06.</strong></td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">7</div></td>
+        <td>Edit score button (per question)</td>
+        <td><span class="type-pill type-changed">Changed</span> <span class="screen-tag">Trainer only</span></td>
+        <td>Edit button changed from labelled ("Edit") to icon-only pencil. Saves ~28px width per row. Border turns brand orange when score has been manually adjusted, providing a passive indicator without adding a separate element.</td>
+        <td>Button: 11px pencil SVG icon, border 1px solid <code>#E0E0E0</code>, border-radius 5px, padding 2px 6px. Adjusted state: <code>border-color: #E87B2E</code>. Existing v3.0 capability — no score edit logic change needed (ENH-03-05).</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge changed" style="width:18px;height:18px;font-size:9px;">8</div></td>
+        <td>Manual adjustment indicator</td>
+        <td><span class="type-pill type-changed">Changed</span> <span class="screen-tag">Trainer only</span></td>
+        <td>v1 showed adjustment on a second text line below the question name, adding a full extra row height. v2 shows an inline amber badge ("0→1") appended to the question name text. Preserves audit visibility without extra vertical space.</td>
+        <td>Inline <code>.adj-badge</code>: bg <code>#FFF3CD</code>, color <code>#856404</code>, border <code>#FFEAA0</code>, 10px/500, border-radius 4px, padding 1px 6px. Display when <code>manuallyAdjusted === true</code> on the question object. Audit log (user ID, original, new, timestamp) handled backend — ENH-03-05.</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge same" style="width:18px;height:18px;font-size:9px;">S</div></td>
+        <td>Accordion expand/collapse</td>
+        <td><span class="type-pill type-same">Same</span> <span class="screen-tag both">Both</span></td>
+        <td>Category rows independently expandable. Chevron icon rotates 180° when open. Categories collapsed by default except the first. Overall score always visible (in header card, not behind accordion). ENH-03-04.</td>
+        <td>Chevron: 12px SVG, stroke <code>#AAA</code>, CSS <code>transform: rotate(180deg)</code> on open state. Each category manages its own open/closed state independently.</td>
+      </tr>
+      <tr>
+        <td><div class="ann-badge same" style="width:18px;height:18px;font-size:9px;">S</div></td>
+        <td>Question row hierarchy</td>
+        <td><span class="type-pill type-same">Same</span> <span class="screen-tag both">Both</span></td>
+        <td>Question rows indented 28px under category rows. 5px dot marker. Lighter font weight (400) vs category name (500). Score right-aligned. Green for full marks, red for zero. ENH-03-01/02.</td>
+        <td>Indentation via <code>padding-left: 28px</code> on <code>.q-row</code>. Question name: 12px/400, color <code>#555</code>. Category name: 13px/500, color <code>#1A1A1A</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

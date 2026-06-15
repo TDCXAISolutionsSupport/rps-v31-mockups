@@ -8,16 +8,17 @@
 <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;background:#f0f0ef;color:#1a1a1a;display:flex;min-height:100vh}
+body{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;background:#f0f0ef;color:#1a1a1a;display:flex;min-height:100vh;margin:0;padding:0}
 #sidebar{width:214px;flex-shrink:0;background:#111;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:200}
-.sb-logo{display:none}
+.sb-logo{padding:12px 14px 10px;border-bottom:1px solid #222}
+.sb-logo img{height:20px;filter:brightness(10)}
 .sb-group{padding:8px 0 2px}
 .sb-group-label{font-size:9px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.8px;padding:0 14px 5px}
 #sidebar a{display:block;padding:5px 14px;font-size:11px;color:#999;text-decoration:none;border-left:2px solid transparent;line-height:1.5}
 #sidebar a:hover{color:#fff;background:#1a1a1a}
 #sidebar a.active{color:#E87B2E;border-left-color:#E87B2E;background:#1a1a1a;font-weight:500}
 .sb-div{height:1px;background:#222;margin:4px 0}
-#main{margin-left:214px;flex:1;padding:20px}
+#main{margin-left:214px;flex:1;padding:20px;min-width:0}
 .screen{display:none;max-width:1120px}
 .screen.active{display:block}
 .screen-label{font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
@@ -205,6 +206,7 @@ textarea{resize:vertical;min-height:68px}
 .result-title{font-size:20px;font-weight:700;margin-bottom:4px}
 .result-title.fail{color:#B71C1C}.result-title.pass{color:#1B5E20}
 .eval-cat{background:#fafaf9;border:1px solid #e8e8e8;border-radius:7px;margin-bottom:6px;overflow:hidden}
+.cat-body{padding:0}
 .eval-cat-hdr{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;cursor:pointer}
 .eval-cat-name{font-size:12px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:7px}
 .score-pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px}
@@ -249,28 +251,33 @@ hr.shr{border:none;border-top:1px solid #eee;margin:12px 0}
 .ui-note::before{content:"ℹ Not part of UI: ";font-weight:600;}
 
 .recording-block{background:#f5f5f4;border:1px solid #e8e8e8;border-radius:8px;padding:13px;margin-bottom:10px}
+
+/* Merged E01c+E03a screen extras */
+.cat-body{transition:all .15s ease}
+.detail-body{background:#fafaf9;border:1px solid #f0f0ef;border-radius:6px;padding:8px 10px}
+.q-text.q-trans{font-size:11px}
 </style>
 </head>
 <body>
 
 <nav id="sidebar">
-  
+  <div class="sb-logo"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBU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NntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span></div>
   <div class="sb-group">
     <div class="sb-group-label">ENH-01 Language support</div>
-    <a href="#" class="active" onclick="show('e01b',this)">E01b, Pre-sim screen (trainee)</a>
-    <a href="#" onclick="show('e01c',this)">E01c, Transcript + translation</a>
+    <a href="#" class="active" onclick="show('e01b',this)">S1 (ENH-01) — Pre-sim screen (trainee)</a>
+    <a href="#" onclick="show('e01c',this)">S2 (ENH-01 / ENH-03) — Trainer review</a>
   </div>
   <div class="sb-div"></div>
   <div class="sb-group">
     <div class="sb-group-label">ENH-02 Template management</div>
-    <a href="#" onclick="show('s4',this)">S4, Entry point</a>
-    <a href="#" onclick="show('s5',this)">S5, Scenario template</a>
-    <a href="#" onclick="show('s6',this)">S6, Scorecard template</a>
-    <a href="#" onclick="show('s7',this)">S7, Create simulation</a>
-    <a href="#" onclick="show('s8',this)">S8, Template library</a>
-    <a href="#" onclick="show('s10',this)">S10, Card: creator</a>
-    <a href="#" onclick="show('s11',this)">S11, Card: non-creator</a>
-    <a href="#" onclick="show('s12',this)">S12, Session expiry</a>
+    <a href="#" onclick="show('s4',this)">S3 (ENH-02) — My Simulations / Entry point</a>
+    <a href="#" onclick="show('s5',this)">S4 (ENH-02) — Create scenario template</a>
+    <a href="#" onclick="show('s6',this)">S5 (ENH-02) — Create scorecard template</a>
+    <a href="#" onclick="show('s7',this)">S6 (ENH-02) — Create simulation</a>
+    <a href="#" onclick="show('s8',this)">S7 (ENH-02) — Template library</a>
+    <a href="#" onclick="show('s10',this)">S8 (ENH-02) — Template card: creator</a>
+    <a href="#" onclick="show('s11',this)">S9 (ENH-02) — Template card: non-creator</a>
+    <a href="#" onclick="show('s12',this)">S10 (ENH-02) — Session expiry</a>
   </div>
   <div class="sb-div"></div>
   <div class="sb-group">
@@ -280,13 +287,82 @@ hr.shr{border:none;border-top:1px solid #eee;margin:12px 0}
   <div class="sb-div"></div>
   <div class="sb-group">
     <div class="sb-group-label">ENH-03 Granular scorecard</div>
-    <a href="#" onclick="show('e03a',this)">E03a, Trainer review</a>
-    <a href="#" onclick="show('e03b',this)">E03b, Trainee results</a>
-    <a href="#" onclick="show('e03c',this)">E03c, Score adjustment</a>
+    <a href="#" onclick="show('e01c',this)">S2 (ENH-03) — Trainer review (see S2)</a>
+    <a href="#" onclick="show('e03b',this)">S11 (ENH-03) — Trainee results</a>
   </div>
 </nav>
 
 <main id="main">
+
+<!-- ═══════════ ENH-01b, Pre-simulation screen (trainee) ═══════════ -->
+<div id="e01b" class="screen active">
+<div class="screen-label">S1 (ENH-01) — Pre-simulation screen: trainee view. Language, call type, and key info shown clearly. ENH-01-04.</div>
+<div class="chrome">
+<div class="topnav"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBU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NntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span><div class="nav-r"><div class="bell-wrap"><i class="ti ti-bell" style="font-size:17px;color:#888"></i><span class="bell-dot red"></span></div><div class="avatar green">CC</div><span class="nav-name">Cadence Cheo Trainee <i class="ti ti-chevron-down" style="font-size:11px"></i></span></div></div>
+<div class="actionbar">
+  <div class="back-link"><i class="ti ti-arrow-left" style="font-size:14px"></i> Order issue , damaged product</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="presim-timer">0:00 / 10:00</span>
+    <button class="presim-start"><i class="ti ti-player-play" style="font-size:14px"></i> Start</button>
+  </div>
+</div>
+<div class="pbody">
+  <div style="background:#EAF3DE;border:1px solid #97C459;border-radius:8px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px">
+    <i class="ti ti-headphones" style="font-size:16px;color:#2E7D32"></i>
+    <span style="font-size:12px;color:#1B5E20"><strong>Start conversation with David Chen</strong>, Yet to connect</span>
+    <span class="lang-badge" style="margin-left:auto"><i class="ti ti-language" style="font-size:11px"></i> English</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-info-circle"></i> Scenario details</div>
+        <div class="form-row col2" style="margin-bottom:0">
+          <div class="field"><div class="lbl">Scenario type</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">Order issues</div></div>
+          <div class="field"><div class="lbl">Difficulty</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">Moderate</div></div>
+          <div class="field"><div class="lbl">Language</div><div style="margin-top:2px"><span class="lang-badge"><i class="ti ti-language" style="font-size:11px"></i> English</span></div></div>
+          <div class="field"><div class="lbl">Call type</div><div style="margin-top:4px;display:flex;align-items:center;gap:5px"><span style="background:#E3F2FD;color:#0D47A1;border:1px solid #90CAF9;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:500"><i class="ti ti-phone-incoming" style="font-size:11px"></i> Inbound</span></div></div>
+          <div class="field"><div class="lbl">Time limit</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">10 minutes</div></div>
+          <div class="field"><div class="lbl">Due date</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">30 Jun 2026</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ti ti-file-text"></i> Scenario description</div>
+        <div style="font-size:12px;color:#333;line-height:1.6">A customer who recently received an online order is contacting support claiming the product arrived significantly damaged. They are persistent and skeptical, and will demand an immediate resolution.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-user-circle"></i> Customer information</div>
+      <div class="form-row col2" style="margin-bottom:0">
+        <div class="field"><div class="lbl">Client name</div><div style="font-size:12px;font-weight:500;margin-top:2px">David Chen</div></div>
+        <div class="field"><div class="lbl">Customer ID</div><div style="font-size:12px;font-weight:500;margin-top:2px">dchen_ordr03</div></div>
+        <div class="field"><div class="lbl">Historical issues</div><div style="font-size:12px;font-weight:500;margin-top:2px">Positive history</div></div>
+        <div class="field"><div class="lbl">Loyalty status</div><div style="font-size:12px;font-weight:500;margin-top:2px">Gold</div></div>
+        <div class="field"><div class="lbl">Email</div><div style="font-size:12px;font-weight:500;margin-top:2px">david.chen88@example.com</div></div>
+        <div class="field"><div class="lbl">Phone</div><div style="font-size:12px;font-weight:500;margin-top:2px">301-555-0123</div></div>
+        <div class="field"><div class="lbl">Region</div><div style="font-size:12px;font-weight:500;margin-top:2px">Domestic</div></div>
+        <div class="field"><div class="lbl">Address</div><div style="font-size:12px;font-weight:500;margin-top:2px">789 Pine St, Rockville, MD</div></div>
+      </div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid #eee">
+        <div style="font-size:11px;color:#888;font-style:italic">Conversation history will appear here once the call starts.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-wrap">
+    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations, not part of UI</div>
+    <div class="ann-grid">
+      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Language badge</b> shown in connection bar + scenario details card. ENH-01-04.</div></div>
+      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Call type badge</b> (Inbound / Outbound), shown clearly so trainee knows how to handle the call opening.</div></div>
+      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>ElevenLabs TTS</b> activates on Start. If unavailable, show error: "Voice service unavailable, please try again or contact support." ENH-01-05.</div></div>
+      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>All 9 priority languages available</b> by default. No admin toggle required, ElevenLabs configuration is backend-managed. ENH-01-03.</div></div>
+      <div class="ann-item"><div class="ann-num">5</div><div class="ann-text"><b>Customer info card</b> shown only if "Show customer info to trainee" is on in scenario template.</div></div>
+      <div class="ann-item"><div class="ann-num">6</div><div class="ann-text"><b>STT</b> captures trainee speech in the simulation language. ENH-01-01.</div></div>
+    </div>
+  </div>
+</div></div></div>
+
+<!-- part 2 marker -->
+
+
 
 <!-- ═══════════ SCREEN 4 — Entry point ═══════════ -->
 <div id="s4" class="screen">
@@ -1120,366 +1196,921 @@ hr.shr{border:none;border-top:1px solid #eee;margin:12px 0}
 </div>
 </div>
 
-<!-- ═══════════ ENH-01b, Pre-simulation screen (trainee) ═══════════ -->
-<div id="e01b" class="screen active">
-<div class="screen-label">ENH-01b, Pre-simulation screen (trainee view) — State A: all sections shown. ENH-01-04.</div>
-<div class="chrome">
-<div class="topnav"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBUMJpLax+x8HyH+iz857O8B0vIL1aMftU11vlzpLbQwjeSoqZRGxvtP6FGnUvjLxG0Sy0eFWipyCdu4FVOTBT794BHTcPY1Q/1U1NzHUq9OuWUXWSdgcTBSMPRgpx3MZ1e07k960xB3zKOLXV+7yv+gLjQWSIn0WUdI1xaP7UnS3WlVeumr9VMZZdQb4HHr6E/QHzNAC5wiDqNq4g9Zba8GDPbpIN+bagMmB/HaV0nDeMvUO2SMjyK2Wq+QAjpODDBLt2828t/Yoyogso0o4ntNM6mhoKmtfjl1lIa2muJDY3uPYyUeiT4Hok9gXUNRyHac5G5pBBtNSQR2/UnKoddZ0+1/wBQMQxC5YoysjutorKOSljhr+lIaUPaW7xu3BGwPvTuPBByZERBP/ycfwI3j745v1emUmVGbycfwI3j745v1emUmUBEWk6xan4tpbjD71kdV6b920lHEQZqp/xWju73HkPmCDcaupp6OmkqqueKngiaXSSyvDWMA6ySeQCjzqhxc6eYvLLQ43HPlNcwlpfTHzdM0/8AEPvvwQR4qIet+uOa6qXCRtyrHUFlDt4LXTPIiaOwv/8A2O8T7AFy5BInLeMDVS7SObaBarFCeoQU/nXj8J+/6FoNw171irpfOT6gXkO7ontiHzMAC5oiDpdu171ioJfOU+oF4J7pntlHzPBC3/EuMHVO0va27ttV9hHWJ6fzTz+Ezb9CjqiCw7S/i407yiWKhyNk+LVzz0Q6pPTpnH/ij3v4QA8VIWkqKerpo6mkniqIJWh0csTw5rweogjkQqbF1LQ/XLNdK69jLbVur7K5289rqXkxOHaWHrjd4j2goLRlHnjZg1KoMRo8uwPI7lQUlr6QudLRvLHOY4jabccyG9RHYDv3rqOj2p2Lao4wy945Vbubs2qo5SBNSv8AivH6HDkVuNTBDU08tNURMmhlYWSRvbu17SNiCD1ghBVZ9OzVr7YWQflbk+nZq19sLIPyty2zi10bl0tzY1lrhe7GLq90lC/rEDut0BPh1jvHqK4kgm/wWcQFwyG4uwDPLq+ruMpL7VXVDh0pj1mBx7XdrSevmOvZS5VNtDV1NDWwVtHPJT1MEjZIpY3bOY4HcEHsIKsx4VtYKbVbBGmsljjyS2NbFcoAdi/4szR8V23sO47tw7CiIgIi0LXbUu06WYBV5HcC2WqIMVvpOls6onI9Fv8AZHW49gHfsg5bxna5y6e2ZmJYrWCPKLgwPkmZsTQwfG/tu6h3Dc9yhv8ATs1a+2FkH5W5anluQXbKskrshvlU6quFdMZZpHd57AOwAcgOwBYpB0H6dmrX2wsg/K3KUvA1LqtlddW5pleWXerxyON1LTU9XIXtqpdxu9u/UGbbbjrJ27Cov8Pel1y1W1AprHT9OG2w7TXKqA5Qwg8wPlO6h48+xWhY5ZrbjtiorHZ6SOkt9DC2GnhYNg1oH6e0ntO5QZBERAREQEREBERAREQEREBERAUHM54Ns5uGYXa42fI8fkoaurkqITUvljkAe4u2cAxw3G+3IlTjRBAP3Fepn9f4t/fz/wC0pCcJOh940gpb5PfrtQ1tbc3RNbHR9IxxsZ0uZc4Akku7uW3bvy7wiCurygH1wcv3Kpv2lwOgpnVldT0jZIonTytjD5XdFjS47buPYBvzK755QD64OX7lU37Sj4gkzBwYajzwsmhyPE5YntDmPZUzFrgeogiLmF5+4r1M/r/Fv7+f/aWY4BNWLtBlzdMrxWSVNtroZJLZ51xcaeVjS9zGk/0XNDjt2Fo26ypyIIB+4r1M/r/Fv7+f/aT3Fepn9f4t/fz/AO0p+IggH7ivUz+v8W/v5/8AaT3Fepn9f4t/fz/7Sn4iDiPCZoxddILBeIr5daOur7nOx5bSdIxRsYCAN3AEk7nfl3LtyL019XT0FDPXVcrYaenjdLLI7qa1o3JPsCDmfEnq5b9JcGdcPqdRe63pRWykcffv25vcPiN3BPfyHaqy8nvt2ya/Vd8vldLW3CskMk00h3Lif0AdQHYFuHEHqPW6n6mXHIZpHihY409thJ5RU7SeiNu883HxK56gIvrs9tr7xdKa12ukmrK2qkEUEETek+Rx6gAp6cOnCxYMSpKa/wCe08F6yBwEjKR4D6ajPWBt1SPHeeQ7B2oIfYBo5qVnUbZscxSuqKV3VUygQwn1PeQD7F1ah4MdU54BJUXPGqRxHON9VI4j8WMj86sCijjijbHExsbGjZrWjYAdwC8kFdeQ8IOrtsgdLRxWa79HrZSVvRdt6pA3dcYy/D8oxCu+gsnsNwtM+/IVMJaHf2T1H2FW9rGZNj1jya0y2rILVSXOilGz4aiIPb7N+o+IQU9IpOcUfDJUYPT1GXYMKitx1m76qjcS+ahHxget8fiebe3frUY0BERBP/ycfwI3j745v1emUmVGbycfwI3j745v1emUmUGq6rZ3ZNOMIrspvsm0FO3aKFpHTqJT72NviT8w3PYqvdV9QMg1JzCqyTIakvlkJbBA0nzdNFv6MbB2Ad/aeZXU+NvVGTOdTZcet1SXWLH5HU8Ya70ZqgcpZPHYjojwaT2rgCAi8mNc97WMaXOcdmtA3JPcpn8M3CnSmkpcs1QpTLJIBJS2R3JrR1h0/efkfPv1IIt4HprnWdS9DFsZuFxZvsZmR9GFvrkds0fOuwWjg31YrKdstXUY9bXkbmKesc9w9fm2OH51YJb6Kjt1HHR0FLBS00TejHFDGGMaO4Acgvegr0vHBxqzRU7paOfH7m4DlFBWOY4/3jGj8647nenOcYNN5vKcauFtbvs2aSLeJ3qeN2n51bavnuVDRXKikorjSQVdLK3oyQzRh7HDuIPIoKb0UzOJrhTp4qWqy3S+mczzbTJVWQcwQOZdB2/gfN3KGj2uY8se0tc07EEbEFBtmk+oGQaa5jS5Jj9QWyRkNnp3OPm6mLf0o3juPf2HmrQ9LM5smouE0GVWKXpU9S3aSJx9OCUe/jd4g/ONj1FVHqQXBBqjJhGpceN3GpLbHkD2wPDj6MNR1Rv8Nz6J9Y7kE79UcIsuoeE1+K32LpU1Uz6nIB6cEg95I3xB+fmOoqrPU3C7zp/mlwxa+w9CqpH7NeB6M0Z97I35Lhz/ADditzXDuLrRmLVDCzcbTCxuUWljn0bttjUx9boCfHraew+BKCthbfpDn1402zugymzPJfA7o1EBOzaiE+/jd4EfMQD2LU54paeeSCeN8Usbix7HjZzXA7EEdhBXggt60+y2zZxiFvyiw1Anoa6IPbz9KN3U5jh2OadwR4LPKuTg51ofpvl/8A3ypcMXu8rWzdI+jSTHk2Ydw6g7w2PYrGo3tkY2Rjg5jgC1wO4I70HyXu50FltFXd7rVRUlDRxOmnmkOzWMaNySqwuJHVev1X1AmuhMkNmpCYbXSuPvIt/fkfHd1n2DsXX+OnWr+HrrJprjVXvbKGX/ANVmjdyqJ2//ABb9rWHr73epRRQFkMbstzyK/UVjs9K+rr62ZsMETBzc4n9HeexY9T44HtE/4qWNmoOS0m18uUX8ghkbzpKdw99sep7x8zdh2lB1vh80utmlOn9NYqYMmuM201zqwOc8xHPb5Lepo7vEldFREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6zwgEjiPw/Y7fyqT/AEZFZ+qv+EH647D/APmpP9GRWgICIiAiIgLgHHdmj8W0TltVLL0K3IJxQt2OxEIHSlPq2Ab+Gu/qCPlIL2+q1Gx2wNdvDQWx1QR3SSyEH/DGxBFVEWd0+x+TKs5smNxEtNyroqYuHW1rnAOPsG59iCZ/AVpDBZ8bbqXfKUOudzYW2trx/MU/UZB8p/Yfi7d6lYvntdDS2y2UtuooWw0tLCyGGNo2DGNADQPAABfQgIiICIiDxljjlifFKxskb2lrmuG4cD1gjtCrY4wtJo9MtRfom0QGPHrz0p6JoHowPB+qQ+oEgjwI7lZSuI8bWJRZPoHd6oRg1lkLbjA7o7kBp2kG/d0HOP4IQVqoiIJ/+Tj+BG8ffHN+r0y63xCZkcD0eyHIopRHVx0xhoz2+fk9BhHiCel7FyTycfwI3j745v1emXweUevMtLpxj9kik6La+5GSVvxmxsO353BBBB7nPe573FznHck9ZK/EXlGxz3tY0bucQAPFBKvgK0hgyG8S6j5BSiW32ybzVshkbu2WpHMyEdoZy2+Ufkqda1DRfFoML0sx3HIY/NupaGPz242JlcOlIT49IlbegIiICIiAoH8eWkEWNX2PUTHqTzdrusvm7jFG30YKk8w/wa/n6nD5QU8F6qqnp6unfT1UEU8Lxs+ORgc1w7iDyKCmxeUUj4pWyxPcx7CHNc07EEdRBVvv8U8V+xmy/kMX7qfxTxX7GbL+QxfuoMDoNlz850hxvJp9/omqo2tqSRtvMwlkh9Rc0n2rd166WngpadlPSwRQQxjZkcbA1rR3ADkF7EEJuO7RQ0VTLqjjFJ/JZnAXqnjb/NvPITgdx5B3cdj2naICuQuVFSXK31Fvr6eOppKmN0U0Ujd2vY4bEEdxCrK4odIazSjPHwU7JJMfuJdNa6g89m7+lE4/GZuPWCCg5IpEYhxQZJYdB6rBgJpb5EBS2y5l25gpSCCCTzL2jk09gI+KN47og/Xuc95e9xc5x3JJ3JK/EW8aI6cXfVHPqPGrW10cJPna6q23bTQA+k8+PYB2khB1Xgr0UOe5OMvyGlJxq0zAsje3lW1A5hnixvIu7+Q79rCwA0AAAAcgAsRhmN2jEcXoMcsdK2mt9DCIomDrO3W4ntcTuSe8rLoCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiCuvygII4gpSR12qmI/xqPak55Ri2PptX7RdNtmVtnYwcusxyP3/zBRjQdY4QfrjsP/5qT/RkVoCqc0Jv0eM6x4ne53dGCmukJmPdG53Rd/hcVbGgIiICIiAq5uPqR7+IasY7qjt1KG+rob/91Yyq+fKH259JrdR1xb6FdaIXtd2Ete9hH5h86CNq63wfQRz8RuIiUjZlRI9oPaRE/ZckW98Pt9ixvWvEbxO8MhhucbJHOPJrXnoEnwAcUFrqIOY3CICIiAiIgLWtVYIqrTHKaadodFLZ6tjwe0GFwK2Vc54mr/Hjeg2YXF0gY99tkpYSTz85N9Sbt4gv39iCq1ERBP8A8nH8CN4++Ob9XploflLpX/wphEPSPmzBWO28elEFvnk4/gRvH3xzfq9MtZ8pVbelZMPu+383U1FMT3dJrXfsIITLMYRDHUZnZIJdvNyXCBjt+4yNBWHX0W2qfRXGmrIzs+CZkrfW0g/9kFyCLH43dIL5j1uvNMQYa6ljqWbHcbPaHbfnWQQEREBERAREQEREBERAWi67YRj2faaXSy5HLFS08cTqiKtfsPoORgJEu/cOe/eCQt6UK+O7Wz6Jml0txir+oxkG91EbvfuHMU4I7B1u8dh2FBD+pjbFUyxMlbMxjy1sjep4B6xv2FetEQFZhwd4JjeIaP2642Wrp7lV3uJtXW10f9N23KIdoDObdu/c9qrPUkuCjWv+I2StwvI6ro45dZvqMrz6NHUHkHeDHcge47HvQWDIgII3B3BRAREQEREBERAREQEREBERAREQEREBERAREQRV8ozirq/AbHlcEIc+1Vjqed46xHKOXs6TR86gireNSMVos3wW8YpcOUFypXQ9Pbfzb+tjx4tcAfYqmsqsVyxnJLhj93gMFfb6h0E7D2Oadtx3g9YPaCEGNaS0hzSQRzBHYrPuFPUen1G0kt1VJO112trG0Vxj39IPaNmv27nNAO/fv3KsBdB0G1SvOk+cRX62g1FHKBFcKIu2bUw79Xg4dbT2HwJQWrotZ01zvGtQ8ZhyDGLhHV00gAkZvtJA/bmyRvW1w/P2bhbMgIiICif5R7FZK3C8ey+njLjbKp9JUkDqjmALXHwDmbfhqWC1vVDE6POcAvOKVuwjuFK6NryP5uTrY/2OAPsQVFr9BIIIJBHUQshktmuGPZBX2K6wOgrqCd8E8bhza5p2KxyC0Pha1Jg1K0mt1fLOH3i3sbR3RhPpedaNg/1PADvWSOxdVVVWgeqt50nzaO+W8OqaGYCK4URds2oi37O5w6wf+xKsw02zrGtQsZgyDGLhHV0sgAkZvtJA/tY9vW1w/wD4g2VERAREQFCjyh+pMNXV27TW2VAeKR4rbn0TuBJttFGfEAlxHiF2jib19sultmntdqmgr8tnj2p6UHpNpdxyll26tusN6z6uargu9xrrvdKq6XOqlq62rldNPNId3SPcdySUHyoiIJ/+Tj+BG8ffHN+r0y2zjZxZ+TaB3aWniD6m0yMuDOW56LDs/b8FxPsWp+Tj+BG8ffHN+r0yknX0lPX0NRQ1cTZqaoidFLG7qexw2cD4EEoKbUW7a4YHWab6mXfFqlrzDBKZKOVw/nqdx3jd83I+IK0lBYHwD6kQZJpy7Ca2dv8ACuP8omE85KVx9Fw7+iSWnu9HvUlVURp1mN7wLMKDKMfqPM1tG/cA+9lYeTo3Dta4ciFZnobq5jGq+NMuFnqGQXGJg+jrdI8edp3dvL+kzfqcOXqPJB0RERAREQFwLi+1zqdKrRb7VjTqSXJbg7zgEzOm2npx1vLe9x5Dfucexbtrtq/jOk+NvrbrOyoukzD9A21jx52d3YT8VgPW4+zcqs3UHLr1nWXV+T5BUmeurZOk74sbRyaxo7GtGwAQdg913rJ/9+0f9Panuu9ZP/v2j/p7VwBb1oRgNVqTqfaMYhY/6GklEtdI3/46dnN58CRyHiQgsn0HvmSZLpJj2QZayBl2uFN9ESiGPoNLHOJjPR7N2dE+1buvVR08FJSQ0lNEyKCGNscUbRsGNaNgAO4ALAamZpZdP8Lr8pv04jpaRnosB9OaQ+9jaO1zjy+c9QQc34ttZYdLcJNHa5mOyi6sdHQR77mBnU6dw7h1N73eAKrXqZ5qmpkqaiV8s0ry+SR53c5xO5JPaSVseqOb3nUPNq/Kb5KXVFU/6nECS2CMe9jb4Af9z2rWEBZujxPIqzEK3Lqa1VElkoahlPUVYb6DJHdQ/Rz7Nxv1hZHSbA7zqPnFDi1ljPnah280xG7KeIe/kd4AfOdh2qz7GNOsVsOmkWn1PbYprGKU088UjQTUdIem957XOO537D1bbBBUqi6ZxF6U3HSfP57RIJJrRUkzWurcP52Lf3pPx29R9h7VzNBP3gg1rGYWBuBZHV9K/wBrh/kcsjudZTNHVv2vYOR7xsewqTap5xi+XPG8gob9Zqp9LcKGZs0ErTza4fpHYR2hWi6BanWvVXT+mv8ARlkVdHtDcaQO3NPOBzH9k9YPd6ig6CiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgKJvHbotNfKE6l4zSGSvooQ27U8bfSmhb1TAdpYOR+Tz7FLJfjmhzS1wBaRsQRyKCmhFLziu4YqqhqavNtN6B09C8mautELd3wHrL4Wjrb2lg5js5chERwLXFrgQQdiD2INi0+zjKsCvrLzil4qLdVDk8MO8crfivYfRcPAhSw0741qV0MVNnmMSxyjYPrLY4Fp7yY3HceoOKhYiCym28VWi1ZGHvyOpozt72ooZQf8IK+z3TuiX2ZN/Ip/wBxVlIgs1907ol9mTfyKf8AcXTcQyWx5dj9Nf8AHLlDcbbUgmKeLfY7HYgg8wQRsQeap9VjPAL9bzSfdGq/zBBo3HdorLdqZ2p2M0hfW00YbeKeNvOWJo2bMB2lo5O+SAeznB9XLva17HMe0Oa4bOaRuCO5Qg4rOGKqtc9ZmunNC+ot7i6autMTd30/a58Q/pM7S3rHZy6giOtk09zrK8Avjbxid5qLdU8hIGHeOZvxXsPJw9Y9Wy1xwLSWuBBHIg9i/EE1NPONakfDFTZ5jEscw2D6u2ODmnvJjcdx6g4rqtt4qtFqyLpvyOpozt72ooZQf8IKrWRBYzfuLnSC3QvNHWXS6SgHosp6JzQ4+t+2y4LqvxiZfkFNNbsKtzMapZAWmqc4S1RHyT71h8QCe4hRgRB7q2qqa2rlrKyolqamZ5fLLK8ve9x6ySeZPivSi9kEE8/T8zDJL0Gl7+g0notHWTt1DxQetERBP/ycfwI3j745v1emUmVGbycfwI3j745v1emUmUHB+MXRp2pmFtu1jpw7JrOxz6Zo5Gqi63Q+vtb48u1VxTRSQzPhmjfHJG4tex42c0jkQQeoq5VRZ4s+GsZdLU5tgVNHFfiC+ut42a2u+WzsEn5nevrCBqyWM369YzeYLzYLnVW24U7t4p6eQtcPDxB7QeR7V8lfSVVBWzUVdTTU1TA8slhlYWPY4dYIPMFehBLzTPjSudJTxUefY824loDTXW8iOR3i6M+iT6iPUuz2jiw0Zr2AzXqvoCettTQv3H4vSVbiILIrvxY6M0DC6G819wcOptNQv5/jdFcX1N40rtW08tFgOPttnSBaK6vIlkb4tjHog+sn1KIqIMjkl9vGSXmovF+uVTcrhUO6UtRUSFznf+B3Acgsci+i3UVZca6GgoKWaqqp3iOGGFhe97j1AAcyUHqp4ZaieOCCJ8ssjgxjGNJc5xOwAA6ySrIuD/Rv6WGEuuV5haMmvDGvqx1mmj62wg9463ePLsWo8JvDYzDHU2a51TxzZCWh9HQnZzKDf+k7sMv5m+J5qUKDwnlighfPNIyOKNpe97zs1rQNySewKtvi61lk1QzU2+0VDhi9pe5lG0HYVEnU6cjx6m9w9ZXaOO7Wv6CpZdLcZq9qmdo/hqeN3OOMjcQA97hzd4bDtKhMgL3UdNUVtXDR0kL56id7Y4o2Ddz3E7AAdpJXpUzeBHRP+Z1Tyek7/wCA6eRvsNQQfmb7T3IOzcKWjtPpVgzZK+KN+S3RrZLjMBv5odbYGnub297tz2DbsqIg5/r5pja9VcAqcfrehDWx7zW6rLdzTzgcj/ZPU4d3iAqusqsN0xjIq6wXqlfS3ChmdDPE7scO0d4PWD2ghXCqM3G7op/HLH3Z3jdJ0sgtcP8AKoY2+lWU7eZ273s5kd43HcggAuk8O2qlx0o1AgvMRkmtdRtBc6UHlLDv1j5TesH1jqJXNkQXFY/d7dfrJR3q01UdXQVsLZqeZh3D2OG4K+5QO4Gta/4tXmPTnJKsCzXGb/02aV3KlqHH3m/Yx5+Z3rKnigIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIC4Zrjwz4RqNJNdaEfxdv8m7nVdLGDFM7vkj5AnxGx9a7miCsTUzh01TwaSWWosEl3tzNyK62bzs273NA6bfaNvErks8MsErop4nxSN5Fr2kEewq5VYDIsKxDImvF8xm0XEv8AfOqKRj3H8IjdBUMitJqOH7Rqd3SdgFoafkNc0fmK9Xud9GPsDtv4z/3kFXasZ4BQfc80fLruNV/nC2v3O+jH2B238Z/7y6FjNhs2M2Snslgt1PbrdTAiKngb0Wt3O59pPPdBkkREHCdceGTCdRZJ7rbQMcv8m7nVVNGDFM7vkj5AnxGx9ahzqZw66p4LLLJU4/JdrezmK61gzx7d7mgdNntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span><div class="nav-r"><div class="bell-wrap"><i class="ti ti-bell" style="font-size:17px;color:#888"></i><span class="bell-dot red"></span></div><div class="avatar green">CC</div><span class="nav-name">Cadence Cheo Trainee <i class="ti ti-chevron-down" style="font-size:11px"></i></span></div></div>
-<div class="actionbar">
-  <div class="back-link"><i class="ti ti-arrow-left" style="font-size:14px"></i> Order issue, damaged product</div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <span class="presim-timer">0:00 / 10:00</span>
-    <button class="presim-start"><i class="ti ti-player-play" style="font-size:14px"></i> Start</button>
-  </div>
-</div>
-<div class="pbody">
-  <div style="background:#EAF3DE;border:1px solid #97C459;border-radius:8px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px">
-    <i class="ti ti-headphones" style="font-size:16px;color:#2E7D32"></i>
-    <span style="font-size:12px;color:#1B5E20"><strong>Start inbound call with David Chen</strong> — yet to connect</span>
-    <span class="lang-badge" style="margin-left:auto"><i class="ti ti-language" style="font-size:11px"></i> English</span>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-    <div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-info-circle"></i> Simulation Details</div>
-        <div class="form-row col2" style="margin-bottom:0">
-          <div class="field"><div class="lbl">Scenario type</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">Order issues</div></div>
-          <div class="field"><div class="lbl">Difficulty</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">Moderate</div></div>
-          <div class="field"><div class="lbl">Language</div><div style="margin-top:2px"><span class="lang-badge"><i class="ti ti-language" style="font-size:11px"></i> English</span></div></div>
-          <div class="field"><div class="lbl">Call type</div><div style="margin-top:4px;display:flex;align-items:center;gap:5px"><span style="background:#E3F2FD;color:#0D47A1;border:1px solid #90CAF9;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:500"><i class="ti ti-phone-incoming" style="font-size:11px"></i> Inbound</span></div></div>
-          <div class="field"><div class="lbl">Time limit</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">10 minutes</div></div>
-          <div class="field"><div class="lbl">Due date</div><div style="font-size:12px;font-weight:500;color:#1a1a1a;margin-top:2px">30 Jun 2026</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-file-text"></i> Scenario Description</div>
-        <div style="font-size:12px;color:#333;line-height:1.6">A customer who recently received an online order is contacting support claiming the product arrived significantly damaged. They are persistent and skeptical, and will demand an immediate resolution.</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><i class="ti ti-user-circle"></i> Customer Information</div>
-      <div class="form-row col2" style="margin-bottom:10px">
-        <div class="field"><div class="lbl">Customer name</div><div style="font-size:12px;font-weight:500;margin-top:2px">David Chen</div></div>
-        <div class="field"><div class="lbl">Customer ID</div><div style="font-size:12px;font-weight:500;margin-top:2px">dchen_ordr03</div></div>
-        <div class="field"><div class="lbl">Loyalty status</div><div style="font-size:12px;font-weight:500;margin-top:2px">Gold</div></div>
-        <div class="field"><div class="lbl">Email</div><div style="font-size:12px;font-weight:500;margin-top:2px">david.chen88@example.com</div></div>
-        <div class="field"><div class="lbl">Phone</div><div style="font-size:12px;font-weight:500;margin-top:2px">301-555-0123</div></div>
-        <div class="field"><div class="lbl">Region</div><div style="font-size:12px;font-weight:500;margin-top:2px">Domestic</div></div>
-        <div class="field" style="grid-column:1/-1"><div class="lbl">Address</div><div style="font-size:12px;font-weight:500;margin-top:2px">789 Pine St, Rockville, MD 20852</div></div>
-      </div>
-      <div style="padding-top:10px;border-top:1px solid #eee;margin-top:2px">
-        <div class="lbl" style="margin-bottom:4px">Historical issues</div>
-        <div style="font-size:12px;color:#333;line-height:1.5">Positive history. No prior complaints. Long-standing Gold member since 2021.</div>
-      </div>
-      <div style="padding-top:10px;border-top:1px solid #eee">
-        <div style="font-size:11px;color:#888;font-style:italic">Conversation history will appear here once the call starts.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ann-wrap" style="margin-top:10px">
-    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations, not part of UI</div>
-    <div class="ann-grid">
-      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>State A shown above</b> — all three toggles on in scenario template: scenario description, customer information, and historical issues all visible to trainee. ENH-01-04.</div></div>
-      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>State B (sections hidden)</b> — when toggles are off in the scenario template, the respective card or field is not rendered. Simulation details card is always visible. Trainer can hide any combination of: scenario description, customer information, historical issues. ENH-01-04.</div></div>
-      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Call label</b> reflects call type from scenario template: Inbound → "Start inbound call with [name]". Outbound → "Answer inbound call from [name]". ENH-01-04.</div></div>
-      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>Historical issues</b> displayed as a standard labelled field within the customer info card — same visual weight as other fields. No special highlight.</div></div>
-      <div class="ann-item"><div class="ann-num">5</div><div class="ann-text"><b>ElevenLabs TTS</b> activates on Start. If unavailable: "Voice service unavailable, please try again or contact support." ENH-01-05.</div></div>
-      <div class="ann-item"><div class="ann-num">6</div><div class="ann-text"><b>STT</b> captures trainee speech in the simulation language. All 9 priority languages available by default. ENH-01-01, ENH-01-03.</div></div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ═══════════ ENH-01c, Transcript + translation ═══════════ -->
+<!-- ═══════════ ENH-01c + ENH-03a MERGED: Trainer review (scorecard + translation) ═══════════ -->
+<!-- Both E01c and E03a now point to this single merged screen id="e01c" and id="e03a" -->
 <div id="e01c" class="screen">
-<div class="screen-label">ENH-01c, Trainer review: transcript + evaluation metrics with English translation (ENH-01-07)</div>
+<div class="screen-label">S2 (ENH-01 / ENH-03) — Trainer review: granular scorecard with all 13 evaluation questions, translation toggle, collapsible AI details, voice download, and transcript export</div>
 <div class="chrome">
-<div class="topnav"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBU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NntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span><div class="nav-r"><div class="bell-wrap"><i class="ti ti-bell" style="font-size:17px;color:#888"></i><span class="bell-dot"></span></div><div class="avatar">CC</div><span class="nav-name">Cadence Cheo Trainer</span></div></div>
-<div class="actionbar"><div class="back-link"><i class="ti ti-arrow-left" style="font-size:14px"></i> Website issue, Cadence Cheo Trainee</div><div class="action-r"><button class="btn btn-p" onclick="nav('e03a')">Mark as reviewed</button></div></div>
-<div class="pbody">
 
-  <div style="font-size:11px;color:#555;margin-bottom:10px;display:flex;align-items:center;gap:8px">
-    <span class="lang-badge"><i class="ti ti-language" style="font-size:11px"></i> Simulation language: Malay</span>
-    <div id="trans-active-label" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#0D47A1;background:#E3F2FD;padding:3px 8px;border-radius:4px;border:1px solid #90CAF9">
-      <i class="ti ti-check" style="font-size:10px"></i> Transcript &amp; metrics translated to <strong id="trans-lang-name">English</strong>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:6px">
-      <span><i class="ti ti-chart-bar"></i> Evaluation Metrics</span>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-size:11px;color:#888">Translate transcript &amp; metrics to:</span>
-        <select id="trans-lang" onchange="applyTranslation(this.value)" style="font-size:11px;padding:3px 7px;border:1px solid #ddd;border-radius:5px;background:#fff;color:#333;cursor:pointer" title="Select once — translation applies to both evaluation metrics and transcript. Each translation consumes API credits.">
-          <option value="">Off (original only)</option>
-          <option value="English" selected>English</option>
-          <option value="Mandarin">Mandarin</option>
-          <option value="Malay">Malay</option>
-          <option value="Indonesian">Indonesian</option>
-          <option value="Cantonese">Cantonese</option>
-          <option value="Thai">Thai</option>
-          <option value="Vietnamese">Vietnamese</option>
-          <option value="Japanese">Japanese</option>
-          <option value="Korean">Korean</option>
-          <option value="Arabic">Arabic</option>
-          <option value="French">French</option>
-          <option value="German">German</option>
-          <option value="Hindi">Hindi</option>
-          <option value="Spanish">Spanish</option>
-        </select>
-        <span id="metrics-trans-badge" class="lang-badge" style="font-size:10px"><i class="ti ti-check" style="font-size:10px"></i> Malay → <span class="trans-target">English</span></span>
-      </div>
-    </div>
-    <div style="border:1px solid #e8e8e8;border-radius:8px;overflow:hidden">
-      <div style="display:grid;grid-template-columns:90px 1fr 1fr 52px 66px;gap:0;padding:6px 13px;background:#f5f5f4;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px">
-        <span>Type</span><span>Question (original)</span><span>English translation</span><span>Score</span><span>Auto-fail</span>
-      </div>
-      <div style="display:grid;grid-template-columns:90px 1fr 1fr 52px 66px;gap:0;align-items:start;padding:9px 13px;border-top:1px solid #f0f0ef;font-size:12px">
-        <span style="color:#888;font-size:11px">Binary (Yes/No)</span>
-        <span>Adakah agen membina hubungan baik sepanjang panggilan?</span>
-        <span style="color:#888;font-style:italic">Does the agent build rapport throughout the call?</span>
-        <span>10</span>
-        <div class="tgl-wrap" style="margin:0"><div class="tgl off"><div class="tgl-k"></div></div></div>
-      </div>
-    </div>
-    <div class="hint" style="margin-top:6px">Translation shown for reviewer reference only. Original content is preserved and used for scoring.</div>
-  </div>
-
-  <div class="recording-block">
-    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px">Replay Conversation</div>
-    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#555">
-      <button class="btn btn-sm"><i class="ti ti-player-play" style="font-size:13px"></i></button>
-      <span>0:00 / 2:01</span>
-      <div style="flex:1;height:4px;background:#ddd;border-radius:2px"><div style="width:30%;height:100%;background:#E87B2E;border-radius:2px"></div></div>
-      <i class="ti ti-volume" style="font-size:14px"></i>
-      <button class="btn btn-p btn-sm"><i class="ti ti-download" style="font-size:11px"></i> Export</button>
-    </div>
-  </div>
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:4px">
-    <div style="font-size:13px;font-weight:600;color:#1a1a1a">Transcript</div>
-    <span id="transcript-trans-badge" class="lang-badge"><i class="ti ti-language" style="font-size:11px"></i> Malay → <span class="trans-target">English</span></span>
-  </div>
-  <div style="border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;margin-bottom:10px">
-    <div class="transcript-line"><span class="sp-ai">Eleanor Vance:</span> <span style="color:#333">Saya tidak boleh log masuk ke laman web anda. Ini sangat mengecewakan!</span> <span class="trans-inline" style="color:#888;font-size:10px;margin-left:6px;font-style:italic">[<span class="trans-target">English</span>: I cannot log in to your website. This is very frustrating!]</span></div>
-    <div class="transcript-line"><span class="sp-trainer">Cadence Cheo Trainee:</span> <span style="color:#333">Saya memahami kekecewaan anda. Boleh saya dapatkan ID pengguna anda?</span> <span class="trans-inline" style="color:#888;font-size:10px;margin-left:6px;font-style:italic">[<span class="trans-target">English</span>: I understand your frustration. May I have your user ID?]</span></div>
-    <div class="transcript-line"><span class="sp-ai">Eleanor Vance:</span> <span style="color:#333">Ya, ID saya ialah evance789.</span> <span class="trans-inline" style="color:#888;font-size:10px;margin-left:6px;font-style:italic">[<span class="trans-target">English</span>: Yes, my ID is evance789.]</span></div>
-    <div class="transcript-line"><span class="sp-trainer">Cadence Cheo Trainee:</span> <span style="color:#333">Terima kasih. Saya akan semak akaun anda sekarang.</span> <span class="trans-inline" style="color:#888;font-size:10px;margin-left:6px;font-style:italic">[<span class="trans-target">English</span>: Thank you. I will check your account now.]</span></div>
-  </div>
-
-  <div class="ann-wrap">
-    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations, not part of UI</div>
-    <div class="ann-grid">
-      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Translation applies to both transcript AND evaluation metrics</b>, questions shown in original language + EN inline. ENH-01-07.</div></div>
-      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Translation toggle</b> (top info bar) hides/shows [EN: ...] text globally across both sections. Default on for non-English simulations.</div></div>
-      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Original always preserved</b>, translation is display-only, does not affect scoring. ENH-01-07.</div></div>
-      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>Translation NOT shown to trainee</b>, only on trainer review screen. Trainee sees their own language only.</div></div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ═══════════ ENH-03a, Trainer review (granular scorecard) ═══════════ -->
-<div id="e03a" class="screen">
-<div class="screen-label">ENH-03a, Trainer review: granular scorecard with collapsible categories and score adjustment</div>
-<div class="chrome">
 <div class="topnav"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBU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NntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span><div class="nav-r"><div class="bell-wrap"><i class="ti ti-bell" style="font-size:17px;color:#888"></i><span class="bell-dot"></span></div><div class="avatar">CC</div><span class="nav-name">Cadence Cheo Trainer</span></div></div>
 <div class="actionbar"><div class="back-link"><i class="ti ti-arrow-left" style="font-size:14px"></i> Website issue, Cadence Cheo Trainee</div><div class="action-r"><button class="btn btn-p">Mark as reviewed</button></div></div>
 <div class="pbody">
 
-  <div class="result-banner fail-b">
-    <div class="result-title fail">Cadence Cheo Trainee, Failed <i class="ti ti-circle-x" style="font-size:18px;vertical-align:-2px"></i></div>
-    <div style="font-size:14px;color:#555;margin:4px 0">Overall score: <strong style="font-size:16px;color:#1a1a1a">42%</strong>, Pass threshold: 70%</div>
-    <div style="font-size:11px;color:#888">Website issue · 11 Jun 2026 · Language: English</div>
+<!-- ── RESULT BANNER (simplified, compact) ── -->
+<div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,#FFEBEE,#fff0f0);border:1px solid #FFCDD2;border-radius:8px;padding:10px 16px;margin-bottom:12px;gap:12px;flex-wrap:wrap">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="width:32px;height:32px;border-radius:50%;background:#E53935;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-x" style="color:#fff;font-size:14px"></i></div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#B71C1C">Failed · Cadence Cheo Trainee</div>
+      <div style="font-size:11px;color:#888;margin-top:1px">Website issue · 11 Jun 2026 · Language: English</div>
+    </div>
   </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div style="text-align:center">
+      <div style="font-size:18px;font-weight:700;color:#B71C1C">42%</div>
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px">Score</div>
+    </div>
+    <div style="width:1px;height:30px;background:#FFCDD2"></div>
+    <div style="text-align:center">
+      <div style="font-size:18px;font-weight:700;color:#888">70%</div>
+      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px">Pass at</div>
+    </div>
+  </div>
+</div>
 
-  <div class="card">
-    <div class="card-title" style="justify-content:space-between"><span><i class="ti ti-chart-bar"></i> Evaluation Metrics</span><button class="btn btn-p btn-sm"><i class="ti ti-download" style="font-size:11px"></i> Export scorecard (CSV)</button></div>
+<!-- ── TRANSLATION TOGGLE BAR (compact inline) ── -->
+<div style="display:flex;align-items:center;gap:8px;background:#E3F2FD;border:1px solid #90CAF9;border-radius:7px;padding:7px 12px;margin-bottom:10px;flex-wrap:wrap">
+  <i class="ti ti-language" style="font-size:13px;color:#0D47A1;flex-shrink:0"></i>
+  <span style="font-size:11px;color:#0D47A1;font-weight:500">Simulation language: <strong>Malay</strong>. Translate to:</span>
+  <select id="trans-lang" onchange="applyTranslation(this.value)" style="font-size:11px;padding:3px 7px;border:1px solid #90CAF9;border-radius:5px;background:#fff;color:#0D47A1;cursor:pointer;max-width:130px">
+    <option value="">Off (original only)</option>
+    <option value="English" selected>English</option>
+    <option value="Mandarin">Mandarin</option>
+    <option value="Malay">Malay</option>
+    <option value="Indonesian">Indonesian</option>
+    <option value="Cantonese">Cantonese</option>
+    <option value="Thai">Thai</option>
+    <option value="Vietnamese">Vietnamese</option>
+    <option value="Japanese">Japanese</option>
+    <option value="Korean">Korean</option>
+    <option value="Arabic">Arabic</option>
+    <option value="French">French</option>
+  </select>
+  <span id="trans-active-label" style="font-size:10px;color:#5c87c4;font-style:italic;display:inline-flex;align-items:center;gap:4px"><i class="ti ti-check" style="font-size:10px"></i> Showing <strong id="trans-lang-name">English</strong> translation in questions and agent responses</span>
+</div>
 
-    <!-- Cat 1: expanded -->
-    <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-down" style="font-size:12px;color:#888"></i> Opening and introduction <span style="font-size:10px;color:#888;font-weight:400">30% weight</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">Category score: <strong>6/10</strong></span><span class="score-pill sp-ok">OK, 60%</span></div>
+<!-- ── VOICE RECORDING ── -->
+<div class="recording-block" style="margin-bottom:10px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+    <div style="font-size:12px;font-weight:600;color:#1a1a1a">Voice recording</div>
+    <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-download" style="font-size:11px"></i> Download recording</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#555">
+    <button class="btn btn-sm"><i class="ti ti-player-play" style="font-size:13px"></i></button>
+    <span style="white-space:nowrap">0:00 / 2:01</span>
+    <div style="flex:1;height:4px;background:#ddd;border-radius:2px"><div style="width:15%;height:100%;background:#E87B2E;border-radius:2px"></div></div>
+    <i class="ti ti-volume" style="font-size:14px;color:#888"></i>
+  </div>
+</div>
+
+<!-- ── EVALUATION METRICS ── -->
+<div class="card">
+  <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:6px">
+    <span style="display:flex;align-items:center;gap:6px"><i class="ti ti-chart-bar" style="color:#E87B2E;font-size:14px"></i> Evaluation Metrics <span id="metrics-trans-badge" class="lang-badge" style="font-size:10px"><i class="ti ti-language" style="font-size:10px"></i> Malay → <span class="trans-target">English</span></span></span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <div style="display:flex;align-items:center;gap:5px;background:#f5f5f4;border:1px solid #e8e8e8;border-radius:6px;padding:3px 8px">
+        <span style="font-size:10px;color:#666">Questions:</span>
+        <button id="qview-orig" onclick="setQView('orig')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:none;background:#E87B2E;color:#fff;cursor:pointer;font-family:inherit">Original</button>
+        <button id="qview-trans" onclick="setQView('trans')" style="font-size:10px;padding:2px 7px;border-radius:4px;border:none;background:transparent;color:#888;cursor:pointer;font-family:inherit">Translated</button>
       </div>
-      <div class="q-det">
-        <div class="q-text">Did the agent greet the customer professionally, provide their name and use the customer's name?</div>
-        <div style="display:flex;align-items:center;gap:10px;margin:4px 0">
-          <span style="font-size:11px;color:#888">AI score:</span>
-          <input type="number" class="score-adj" value="6" min="0" max="10"/>
-          <span style="font-size:11px;color:#888">/ 10</span>
-          <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-edit" style="font-size:11px"></i> Adjust</button>
+      <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-download" style="font-size:11px"></i> Export (CSV)</button>
+    </div>
+  </div>
+  <div style="font-size:11px;color:#555;margin-bottom:8px;padding:6px 10px;background:#f5f5f4;border-radius:6px;">
+    <strong>Score adjustment</strong> is available to the trainer assigned to this trainee only. Click "Transcript snippet &amp; AI reasoning" under any question to expand details and submit a score adjustment if needed.
+  </div>
+  
+  <!-- Category: Opening and Introduction -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Opening and Introduction
+        <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-good">80%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent greet the customer professionally, provide their name and use the customer's name?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>8 / 10</strong></span>
+          </div>
         </div>
-        <div class="q-ai-quote">"Good afternoon, this is Cadence from customer support. May I have your name please?"</div>
-        <div class="q-ai-expl">Agent provided a professional greeting and their name. However, they did not use the customer's name (Eleanor) during the opening, which would have established better rapport immediately.</div>
-      </div>
-    </div>
-
-    <!-- Cat 2: expanded -->
-    <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-down" style="font-size:12px;color:#888"></i> Communication &amp; rapport building <span style="font-size:10px;color:#888;font-weight:400">30% weight</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">Category score: <strong>3/10</strong></span><span class="score-pill sp-bad">Bad, 30%</span></div>
-      </div>
-      <div class="q-det" style="border-top:1px solid #f0f0ef">
-        <div class="q-text">Is the communication good?</div>
-        <div style="display:flex;align-items:center;gap:10px;margin:4px 0">
-          <span style="font-size:11px;color:#888">AI score:</span><input type="number" class="score-adj" value="3" min="0" max="10"/><span style="font-size:11px;color:#888">/ 10</span>
-          <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-edit" style="font-size:11px"></i> Adjust</button>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
         </div>
-        <div class="q-ai-quote">"There's nothing I can do about that right now."</div>
-        <div class="q-ai-expl">Agent failed to demonstrate empathy and used dismissive language. Customer expressed frustration and agent did not acknowledge or validate this. Communication tone was unhelpful.</div>
-      </div>
-    </div>
-
-    <!-- Cat 3: collapsed -->
-    <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-right" style="font-size:12px;color:#888"></i> Closing &amp; next steps <span style="font-size:10px;color:#888;font-weight:400">40% weight , click to expand</span></div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">Category score: <strong>7/10</strong></span><span class="score-pill sp-ok">OK, 70%</span></div>
       </div>
     </div>
   </div>
-
-  <div class="recording-block">
-    <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px">Replay Conversation</div>
-    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#555">
-      <button class="btn btn-sm"><i class="ti ti-player-play" style="font-size:13px"></i></button>
-      <span>0:00 / 2:01</span>
-      <div style="flex:1;height:4px;background:#ddd;border-radius:2px"><div style="width:15%;height:100%;background:#E87B2E;border-radius:2px"></div></div>
-      <i class="ti ti-volume" style="font-size:14px"></i>
+  <!-- Category: Security &amp; Verification -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Security &amp; Verification
+        <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-good">70%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent ask verification questions to confirm the customer's identity?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="card">
-    <div class="card-title"><i class="ti ti-message-circle"></i> Trainer Remarks</div>
-    <textarea placeholder="Add coaching notes for the trainee…">Good attempt but needs to work on active listening and empathy. Review module 3 on customer de-escalation techniques.</textarea>
-  </div>
-
-  <div class="ann-wrap">
-    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations</div>
-    <div class="ann-grid">
-      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Overall score always visible</b> at top, does not collapse. ENH-03-04.</div></div>
-      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Categories collapsible</b>, chevron toggles question list. Collapsed state shows category score only. ENH-03-04.</div></div>
-      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Individual question scores</b> shown with AI score input. ENH-03-01, ENH-03-02.</div></div>
-      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>AI explanation + transcript quote</b> per question. ENH-03-03 (good to have).</div></div>
-      <div class="ann-item"><div class="ann-num">5</div><div class="ann-text"><b>Score adjustment</b>, trainer edits score input, clicks Adjust. Recalculates category + overall score. Logged in audit trail with user ID, original score, new score, timestamp. ENH-03-05.</div></div>
-      <div class="ann-item"><div class="ann-num">6</div><div class="ann-text"><b>CSV export</b>, one row per question per trainee. Columns: campaign, trainee, scenario, scorecard, category, question, score, AI explanation. ENH-03-06.</div></div>
+  <!-- Category: Communication Skills -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Communication Skills
+        <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">55%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent demonstrate active listening skills?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>6 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent repeat the identified issue back to the customer for confirmation?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent speak clearly and understandably throughout the call?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">During the call did the agent ask for information that had already been provided to them by the customer?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div></div></div>
+  <!-- Category: Probing Skills -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Probing Skills
+        <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">60%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent use good questioning technique to fully understand the customer's issue?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>6 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Empathy &amp; Tone -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Empathy &amp; Tone
+        <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">50%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Was the agent's tone friendly, empathetic, and appropriate throughout the call?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Customer Satisfaction (CSAT) -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Customer Satisfaction (CSAT)
+        <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">40%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">If the customer expressed anger or frustration did the agent deal with this appropriately?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Call Management &amp; Efficiency -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Call Management &amp; Efficiency
+        <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-good">80%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">If the customer was put on hold was the hold request politely and properly explained?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>8 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Problem Solving -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Problem Solving
+        <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">50%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent provide answers to all of the customer's questions?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Resolution -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Resolution
+        <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-ok">40%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">Did the agent resolve the issue in a way that satisfied the customer?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Category: Closing &amp; Next Steps -->
+  <div class="eval-cat">
+    <div class="eval-cat-hdr" onclick="toggleCat(this)">
+      <div class="eval-cat-name">
+        <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+        Closing &amp; Next Steps
+        <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="score-pill sp-good">70%</span>
+      </div>
+    </div>
+    <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="q-text q-orig">At the end of the call did the agent close the call professionally and courteously?</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <span style="font-size:10px;color:#888;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+          </div>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote q-orig">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl q-orig" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TRANSCRIPT: replaced with export options ── -->
+<div class="card" style="margin-bottom:10px">
+  <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:6px">
+    <span style="display:flex;align-items:center;gap:6px"><i class="ti ti-file-text" style="color:#E87B2E;font-size:14px"></i> Transcript export</span>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-download" style="font-size:11px"></i> Export original transcript</button>
+      <button class="btn btn-sm" style="font-size:11px;color:#0D47A1;border-color:#90CAF9;background:#E3F2FD"><i class="ti ti-download" style="font-size:11px"></i> Export translated transcript</button>
+    </div>
+  </div>
+  <div style="font-size:11px;color:#888;margin-top:2px">Download the full call transcript. Original is in Malay; translated version includes English inline.</div>
+</div>
+
+<!-- ── TRAINER REMARKS ── -->
+<div class="card">
+  <div class="card-title"><i class="ti ti-message-circle"></i> Trainer remarks</div>
+  <textarea placeholder="Add coaching notes for the trainee…" style="min-height:60px">Good attempt but needs to work on active listening and empathy. Review module 3 on customer de-escalation techniques.</textarea>
+</div>
+
+<!-- ── ANNOTATIONS ── -->
+<div class="ann-wrap">
+  <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations — not part of UI</div>
+  <div class="ann-grid">
+    <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Merged screen replaces both E01c and E03a.</b> Sidebar links for both E01c and E03a should navigate here (same id="e01c", alias "e03a" also maps here). ENH-01-07, ENH-03-01.</div></div>
+    <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Compact result banner.</b> Shows trainee name, pass/fail, score, and pass threshold inline — replaces the large gradient card. ENH-03-04.</div></div>
+    <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Translation select (compact).</b> Dropdown in the blue info bar, same options as before but visually reduced. Applies to evaluation question text and agent response snippets only. ENH-01-07.</div></div>
+    <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>Questions toggle (Original / Translated).</b> Inline pill toggle in evaluation metrics header — switches question text between source language and selected translation language. Implemented via JS setQView(). ENH-01-07.</div></div>
+    <div class="ann-item"><div class="ann-num">5</div><div class="ann-text"><b>AI score button inline.</b> Score input + Adjust button placed flush-right on the same row as the question text. No separate section. ENH-03-02, ENH-03-05.</div></div>
+    <div class="ann-item"><div class="ann-num">6</div><div class="ann-text"><b>Transcript snippet + AI reasoning hidden under chevron.</b> Each question has a collapsible "Transcript snippet &amp; AI reasoning" toggle. Default collapsed to reduce clutter. Click to expand inline. ENH-03-03.</div></div>
+    <div class="ann-item"><div class="ann-num">7</div><div class="ann-text"><b>Voice recording download.</b> "Download recording" button added to the recording block. Format: WAV or MP3, filename: <code>recording_{sim_id}_{trainee_id}.mp3</code>. ENH-01-07.</div></div>
+    <div class="ann-item"><div class="ann-num">8</div><div class="ann-text"><b>Transcript removed from view.</b> Full transcript block removed to reduce clutter. Replaced by "Export original transcript" and "Export translated transcript" buttons. Both return plain-text or PDF. ENH-01-07.</div></div>
+    <div class="ann-item"><div class="ann-num">9</div><div class="ann-text"><b>Categories collapsible.</b> Chevron toggles question rows. Collapsed by default for cat 3. ENH-03-04.</div></div>
+    <div class="ann-item"><div class="ann-num">10</div><div class="ann-text"><b>CSV export.</b> One row per question per trainee. Columns: campaign, trainee, scenario, scorecard, category, question, score, AI explanation. ENH-03-06.</div></div>
+    <div class="ann-item"><div class="ann-num">11</div><div class="ann-text"><b>Score adjustment.</b> Only the trainer assigned to the trainee can adjust scores. Adjustment is inline (no separate page). Logs: user ID, original score, new score, timestamp, reason. Auto-recalculates category + overall. ENH-03-05.</div></div>
+    <div class="ann-item"><div class="ann-num">12</div><div class="ann-text"><b>Translation NOT shown to trainee.</b> Translation features (toggle, question swap) only rendered on trainer review. Trainee sees source language only.</div></div>
+  </div>
+</div>
+
+</div><!-- end pbody -->
+</div><!-- end chrome -->
+</div><!-- end e01c screen -->
+
+<!-- e03a is an alias — redirect to e01c -->
+<div id="e03a" class="screen" style="display:none"></div>
 
 <!-- ═══════════ ENH-03b, Trainee results ═══════════ -->
 <div id="e03b" class="screen">
-<div class="screen-label">ENH-03b, Trainee results view: granular scorecard (same structure as trainer, score adjustment hidden)</div>
+<div class="screen-label">S11 (ENH-03) — Trainee results: full granular scorecard, all 13 questions, no score editing</div>
 <div class="chrome">
 <div class="topnav"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADoAggDASIAAhEBAxEB/8QAHQABAAIDAAMBAAAAAAAAAAAAAAgJBQYHAgMEAf/EAFYQAAEDAwICBQUGEAwFBAMAAAEAAgMEBQYHEQghEjFBUWEJEyJxgRgyN1JikRQXIzhWV3V2gpKUobG0wtIVFiQzQlVyk6Kys9NzdJXB0SU1Q1Q2U/H/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AmWiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMVfskx6wujbe73bra6UExiqqWRl4HXt0jzWM+mLgP2Z2D/AKhH/wCVBXygcsr9f3Rvkc5kdppgxpPJoPTJ29qjygt/smV4xfKl1LZshtdwna3pGOmqmSOA79gd9lmVWHwdzSw8R+I+akezp1ErHdE7dJphk3B8FZ4gIiICIiAiIgIiICIiAiIgIiICIsFqJJJDgGQyxPcyRlrqXNc07EERO2IQfPPqBg0Ez4ZswsMcjHFr2ur4wWkdYPNeH0xcB+zOwf8AUI//ACqjySTueZRBcfbK+hulFHXW2sp6ylkG7JoJA9jvURyX0qNPk55JH6H3Vj5HObHkM7WAncNHmKc7DuG5J9pUlkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREFdXlAPrg5fuVTftKPikH5QD64OX7lU37Sj4g6xwg/XHYf/zUn+jIrQFV/wAIP1x2H/8ANSf6MitAQEREBERAREQEREBERAREQEREBa/qT8HeSfcqp/0nLYFr+pPwd5J9yqn/AEnIKh0REE//ACcfwI3j745v1emUmVGbycfwI3j745v1emUmUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVY+ouuGq8me33zWcXelijuE0ccNPN5uONjXlrQGjq5AKzhVBZ9/+dZB906n/Vcg2b6dmrX2wsg/K3KV/ALqJmOZQ5PbspvdTd2UXmJaeSpd0pGdPphw6XWRyHI9Sgepi+TT/wDcMz/4VL+mRBz3ygH1wcv3Kpv2lHxSD8oB9cHL9yqb9pR8QfdYbxdLDd6e72aunoK+mcXQ1ELui+MkEbg+olbn9OzVr7YWQflblz5EHQfp2atfbCyD8rcn07NWvthZB+VuXPkQdB+nZq19sLIPytyfTs1a+2FkH5W5c+RBP7gIz/Lc0xzJKbKbzUXY0FTEaeaoPSkaHtdu0u6yN278+8qTSh75NP8A9pzP/j03+V6mEgIi5LxDa543pJaPNzdG5ZBU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NntAHiVZ4iCmqeGWCV0U8T4pG8i17SCPYV4K3nIcKxDIWvF8xi0XEv8AfOnpGOcfwiN1p9Rw+6NTu6TtP7Q0/Ia5o/MUFWyyFksl4vlYyjs1qrbjUPOzY6WB0jifU0FWhW7QvSG3ytlptP7J5xp3DpIOnt+MSt5tNotNohMNqtlFQRnrbTQNjB9jQEEBtJ+EPPMklirMwkjxa2kgujftJVvHgwcmfhHcfFKlfQaVYZpppLklvxe0sZLLaKltRVyjp1FR9Sd753d8kbDwXV1+SMZJG6ORoexwIc0jcEHsKCmhFaPUcPmjc88kz8CtYfI4ud0em0bnuAOwXh7nfRj7A7b+M/8AeQc68nJ8CN4++Of9XplJlYjEMYsGIWOOyY1aqa2W+Nxc2CBuw6R5kntJPeVl0BERByzWvQjBdU4XVF0ozb7yG7R3OkAbL4B46nj18+4hQw1R4WdT8OllqLZQDJ7Y3ctqLcN5QPlQn0gf7PSHirIkQU319FWUFQ6nrqSelmadnRzRljh7CvnVwd9xrHr8wtvVjttxBGx+iaZkh29ZG60is0C0cqnl8mn9ma4ncmOMs/QQgqzX0UFDW3CobT0FJUVUzjs2OGMvcfYFaJR6B6O0rw+PT+zOcDuDJGX/AOYlbvYsbx+xMDLLY7bbgB0f5NTMjO3rAQV6aXcK+p2YSRVF1om4vbHbF09wG0xHyYR6RP8Aa6I8VM/RTQvBtLIGzWiiNdeC3oy3OrAdMe8M7GDwHtJXUUQFyTih1epdKMCfUUz4pMguIdDbIHc9nbc5XD4rd9/E7BdbWpZ9ptg+eT0s+W47SXWWka5kD5ekCxrjuQNiOXIIKnLlW1dyuFRcK+okqaupldLNNI7d0j3HcuJ7ySvnVonud9GPsDtv4z/3k9zvox9gdt/Gf+8ghDwoaO1GqmctluET2Yza3NluMvV509bYGnvd29zd+8b2W0dNT0VJDSUkLIKeFgjijYNmsaBsAB2ABYvDcVx3DrK2zYxaKa10DXl/mYG7AuPW4nrJ8SsygIiICEAjYjcFEQV98bWipwnJDm2O0hGO3aY/REcbfRo6k8yPBj+ZHcdx3bxrVxOQWa1ZBZqmzXuggr7fVM6E9PM3pMePEfnXOvc76MfYFbfxn/vIKvGuc1wc0lrgdwQeYKsQ4MNaRqFin8VsgqgcmtEQHTefSrIByEni4cg72HtK3P3O+jH2B238Z/7yzmE6SadYXef4ZxjFaK23DzbovPx9IuDT1gbk9eyDeEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/2Q==" alt="tdcx" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" /><span class="logo-text-fallback" style="display:none;font-size:18px;font-weight:600;color:#2c2c2c;letter-spacing:-0.5px">tdcx</span><div class="nav-r"><div class="bell-wrap"><i class="ti ti-bell" style="font-size:17px;color:#888"></i><span class="bell-dot red"></span></div><div class="avatar green">CC</div><span class="nav-name">Cadence Cheo Trainee</span></div></div>
 <div class="actionbar"><div style="font-size:14px;font-weight:500;color:#1a1a1a">Website issue</div><div class="action-r"><button class="btn" style="font-size:12px"><i class="ti ti-x" style="font-size:12px"></i></button></div></div>
 <div class="pbody">
 
-  <div class="result-banner fail-b">
-    <div class="result-title fail">FAIL <i class="ti ti-circle-x" style="font-size:18px;vertical-align:-2px"></i></div>
-    <div style="font-size:15px;color:#555;margin:4px 0">Oops! you scored <strong style="font-size:17px;color:#1a1a1a">42%</strong></div>
-    <button class="btn btn-p" style="margin-top:8px;font-size:12px"><i class="ti ti-message-circle" style="font-size:12px"></i> View trainer remarks</button>
+  <!-- Result Banner -->
+  <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right,#FFEBEE,#fff0f0);border:1px solid #FFCDD2;border-radius:8px;padding:10px 16px;margin-bottom:12px;gap:12px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:32px;height:32px;border-radius:50%;background:#E53935;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-x" style="color:#fff;font-size:14px"></i></div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#B71C1C">Failed · Website issue</div>
+        <div style="font-size:11px;color:#888;margin-top:1px">11 Jun 2026 · Language: English</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="text-align:center">
+        <div style="font-size:18px;font-weight:700;color:#B71C1C">58%</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px">Your Score</div>
+      </div>
+      <div style="width:1px;height:30px;background:#FFCDD2"></div>
+      <div style="text-align:center">
+        <div style="font-size:18px;font-weight:700;color:#888">70%</div>
+        <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.4px">Pass at</div>
+      </div>
+    </div>
   </div>
 
+  <!-- Translation bar -->
+  <div style="display:flex;align-items:center;gap:8px;background:#E3F2FD;border:1px solid #90CAF9;border-radius:7px;padding:7px 12px;margin-bottom:10px;flex-wrap:wrap">
+    <i class="ti ti-language" style="font-size:13px;color:#0D47A1;flex-shrink:0"></i>
+    <span style="font-size:11px;color:#0D47A1;font-weight:500">Translate questions and transcript to:</span>
+    <select style="font-size:11px;padding:3px 7px;border:1px solid #90CAF9;border-radius:5px;background:#fff;color:#0D47A1;cursor:pointer;max-width:130px">
+      <option value="">Off (original only)</option>
+      <option value="English" selected>English</option>
+      <option value="Mandarin">Mandarin</option>
+      <option value="Malay">Malay</option>
+      <option value="Indonesian">Indonesian</option>
+      <option value="Cantonese">Cantonese</option>
+      <option value="Thai">Thai</option>
+      <option value="Vietnamese">Vietnamese</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Korean">Korean</option>
+    </select>
+  </div>
+
+  <!-- Voice Recording -->
+  <div class="recording-block" style="margin-bottom:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+      <div style="font-size:12px;font-weight:600;color:#1a1a1a">Voice recording</div>
+      <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-download" style="font-size:11px"></i> Download recording</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:#555">
+      <button class="btn btn-sm"><i class="ti ti-player-play" style="font-size:13px"></i></button>
+      <span style="white-space:nowrap">0:00 / 2:01</span>
+      <div style="flex:1;height:4px;background:#ddd;border-radius:2px"><div style="width:15%;height:100%;background:#E87B2E;border-radius:2px"></div></div>
+      <i class="ti ti-volume" style="font-size:14px;color:#888"></i>
+    </div>
+  </div>
+
+  <!-- Evaluation Metrics — Trainee View (read-only) -->
   <div class="card">
-    <div class="card-title"><i class="ti ti-chart-bar"></i> Evaluation Metrics — Your Scores</div>
-
+    <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:6px">
+      <span style="display:flex;align-items:center;gap:6px"><i class="ti ti-chart-bar" style="color:#E87B2E;font-size:14px"></i> Evaluation Metrics — Your Scores</span>
+      <span style="font-size:11px;color:#888;font-style:italic">Scores are set by your assigned trainer and AI. You can view reasoning but cannot edit.</span>
+    </div>
+    
     <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-down" style="font-size:12px;color:#888"></i> Opening and introduction</div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">6/10</span><span class="score-pill sp-ok">OK, 60%</span></div>
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Opening and Introduction
+          <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-good">80%</span>
+        </div>
       </div>
-      <div class="q-det">
-        <div class="q-text">Did the agent greet the customer professionally, provide their name and use the customer's name?</div>
-        <div style="font-size:12px;color:#888;margin:4px 0">Your score: <strong style="color:#1a1a1a">6 / 10</strong></div>
-        <div class="q-ai-quote">"Good afternoon, this is Cadence from customer support. May I have your name please?"</div>
-        <div class="q-ai-expl">You provided a professional greeting and gave your name. To score higher, use the customer's name during the opening to establish rapport immediately.</div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent greet the customer professionally, provide their name and use the customer's name?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>8 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
-
     <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-right" style="font-size:12px;color:#888"></i> Communication &amp; rapport building , click to expand</div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">3/10</span><span class="score-pill sp-bad">Bad, 30%</span></div>
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Security &amp; Verification
+          <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-good">70%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent ask verification questions to confirm the customer's identity?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
-
     <div class="eval-cat">
-      <div class="eval-cat-hdr">
-        <div class="eval-cat-name"><i class="ti ti-chevron-right" style="font-size:12px;color:#888"></i> Closing &amp; next steps , click to expand</div>
-        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#888">7/10</span><span class="score-pill sp-ok">OK, 70%</span></div>
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Communication Skills
+          <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">55%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent demonstrate active listening skills?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>6 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent repeat the identified issue back to the customer for confirmation?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent speak clearly and understandably throughout the call?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      <div class="q-det" style="border-top:1px solid #f0f0ef;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">During the call did the agent ask for information that had already been provided to them by the customer?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Probing Skills
+          <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">60%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent use good questioning technique to fully understand the customer's issue?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>6 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Empathy &amp; Tone
+          <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">50%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Was the agent's tone friendly, empathetic, and appropriate throughout the call?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Customer Satisfaction (CSAT)
+          <span style="font-size:10px;color:#888;font-weight:400">15% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">40%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">If the customer expressed anger or frustration did the agent deal with this appropriately?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Call Management &amp; Efficiency
+          <span style="font-size:10px;color:#888;font-weight:400">10% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-good">80%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">If the customer was put on hold was the hold request politely and properly explained?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>8 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Problem Solving
+          <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">50%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent provide answers to all of the customer's questions?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>5 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Resolution
+          <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-ok">40%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">Did the agent resolve the issue in a way that satisfied the customer?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>4 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="eval-cat">
+      <div class="eval-cat-hdr" onclick="toggleCat(this)">
+        <div class="eval-cat-name">
+          <i class="ti ti-chevron-right" style="font-size:12px;color:#888;transition:transform .2s"></i>
+          Closing &amp; Next Steps
+          <span style="font-size:10px;color:#888;font-weight:400">5% weight</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="score-pill sp-good">70%</span>
+        </div>
+      </div>
+      <div class="cat-body" style="display:none">
+      <div class="q-det" style="">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px"><div class="q-text">At the end of the call did the agent close the call professionally and courteously?</div></div>
+          <span style="font-size:10px;color:#888;flex-shrink:0;white-space:nowrap">Score: <strong>7 / 10</strong></span>
+        </div>
+        <div style="margin-top:5px">
+          <button class="btn btn-sm" style="font-size:10px;color:#666;border-color:#ddd;padding:3px 8px" onclick="toggleDetail(this)"><i class="ti ti-chevron-right" style="font-size:10px;transition:transform .2s"></i> Transcript snippet &amp; AI reasoning</button>
+          <div class="detail-body" style="display:none;margin-top:6px">
+            <div class="q-ai-quote">"Sample transcript excerpt relevant to this question."</div>
+            <div class="q-ai-expl" style="margin-top:4px">AI assessment: The agent's performance on this criterion was evaluated based on the transcript. Score reflects overall quality during the interaction.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trainer Remarks -->
+  <div class="card">
+    <div class="card-title"><i class="ti ti-message-circle"></i> Trainer Remarks</div>
+    <div style="font-size:12px;color:#555;line-height:1.6;background:#fafaf9;border:1px solid #e8e8e8;border-radius:6px;padding:10px">Good attempt but needs to work on active listening and empathy. Review module 3 on customer de-escalation techniques.</div>
+  </div>
+
+  <!-- Transcript Export -->
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between">
+      <span><i class="ti ti-file-text" style="color:#E87B2E;font-size:14px"></i> Transcript Export</span>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm" style="font-size:11px;color:#E87B2E;border-color:#E87B2E"><i class="ti ti-download" style="font-size:11px"></i> Original transcript</button>
+        <button class="btn btn-sm" style="font-size:11px;color:#0D47A1;border-color:#90CAF9;background:#E3F2FD"><i class="ti ti-download" style="font-size:11px"></i> Translated transcript</button>
       </div>
     </div>
   </div>
 
   <div class="ann-wrap">
-    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations</div>
+    <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations — not part of UI</div>
     <div class="ann-grid">
-      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Same structure as trainer view</b>, categories collapsible, questions nested with scores and AI explanation. ENH-03-01.</div></div>
-      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Score adjustment hidden</b>, trainee cannot edit scores. Input field and "Adjust" button not rendered. ENH-03-05.</div></div>
-      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Trainer remarks</b>, "View trainer remarks" button opens modal with trainer notes. Same as existing "Trainer Remarks" modal shown in provided screenshots.</div></div>
-      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>AI explanation + quote</b> shown to trainee too, helps self-coaching. ENH-03-03.</div></div>
+      <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Trainee cannot edit scores.</b> Score input and Adjust buttons are hidden. Read-only view. ENH-03-05.</div></div>
+      <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>All 13 evaluation questions</b> shown across 10 categories — same question set as trainer view. ENH-03-01.</div></div>
+      <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Transcript snippet + AI reasoning</b> expandable per question. Helps self-coaching. ENH-03-03.</div></div>
+      <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>Translation</b> applies to questions and transcript. Same language options as trainer view. ENH-01-07.</div></div>
+      <div class="ann-item"><div class="ann-num">5</div><div class="ann-text"><b>Voice recording download</b> available to trainee for self-review. ENH-01-07.</div></div>
+      <div class="ann-item"><div class="ann-num">6</div><div class="ann-text"><b>Trainer remarks</b> visible to trainee for coaching feedback. Score adjustment is trainer-assigned-only.</div></div>
     </div>
   </div>
-</div></div></div>
 
-<!-- ═══════════ ENH-03c, Score adjustment detail ═══════════ -->
-<div id="e03c" class="screen">
-<div class="screen-label">ENH-03c, Score adjustment: inline edit + audit trail (trainer only)</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
-  <div>
-    <div style="font-size:10px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Score adjustment, inline (expanded question row)</div>
-    <div class="eval-cat">
-      <div class="eval-cat-hdr"><div class="eval-cat-name"><i class="ti ti-chevron-down" style="font-size:12px;color:#888"></i> Communication &amp; rapport building</div><div style="display:flex;align-items:center;gap:8px"><span class="score-pill sp-bad">Bad, 30%</span></div></div>
-      <div class="q-det">
-        <div class="q-text">Is the communication good?</div>
-        <div class="q-ai-quote">"There's nothing I can do about that right now."</div>
-        <div class="q-ai-expl">Agent failed to demonstrate empathy. Communication tone was dismissive.</div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #e8e8e8;background:#FFF8F3;border-radius:6px;padding:10px">
-          <div style="font-size:11px;font-weight:600;color:#E65100;margin-bottom:6px"><i class="ti ti-edit" style="font-size:11px"></i> Adjust score, trainer only</div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-            <span style="font-size:11px;color:#666">Original AI score:</span><span style="font-size:12px;font-weight:600;color:#1a1a1a;background:#f5f5f4;padding:2px 8px;border-radius:4px">3</span>
-            <i class="ti ti-arrow-right" style="font-size:12px;color:#888"></i>
-            <span style="font-size:11px;color:#666">New score:</span>
-            <input type="number" class="score-adj" value="5" min="0" max="10"/>
-            <span style="font-size:11px;color:#666">/ 10</span>
-          </div>
-          <div class="field" style="margin-bottom:8px"><textarea placeholder="Reason for adjustment (required)…" style="min-height:50px;font-size:11px">Agent showed some empathy in second half of call that was not captured by the automated scoring.</textarea></div>
-          <div style="display:flex;gap:6px"><button class="btn btn-p btn-sm">Save adjustment</button><button class="btn btn-sm">Cancel</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div>
-    <div style="font-size:10px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Audit trail, score adjustment log (ENH-03-05)</div>
-    <div class="card">
-      <div class="card-title"><i class="ti ti-history"></i> Score Adjustment History</div>
-      <div style="border:1px solid #e8e8e8;border-radius:7px;overflow:hidden">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;padding:6px 10px;background:#f5f5f4;font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.3px">
-          <span>Adjusted by</span><span>Question</span><span>Score</span><span>Timestamp</span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;padding:7px 10px;font-size:11px;border-top:1px solid #f0f0ef;align-items:start">
-          <span style="font-weight:500">Cadence Cheo Trainer</span>
-          <span style="color:#666">Is the communication good?</span>
-          <span><span style="color:#A32D2D;text-decoration:line-through">3</span> → <span style="color:#2E7D32;font-weight:600">5</span></span>
-          <span style="color:#888">11 Jun 2026 15:43</span>
-        </div>
-      </div>
-      <div style="font-size:11px;color:#666;margin-top:8px;font-style:italic">Recalculated: Communication category 30% → 50%. Overall score 42% → 51%. Threshold 70%, still failing.</div>
-    </div>
-    <div class="ann-wrap" style="margin-top:10px">
-      <div class="ann-heading"><i class="ti ti-notes" style="font-size:11px"></i> Dev annotations</div>
-      <div class="ann-1col">
-        <div class="ann-item"><div class="ann-num">1</div><div class="ann-text"><b>Adjustment inline</b>, opens within question row on "Adjust" click. No separate page. ENH-03-05.</div></div>
-        <div class="ann-item"><div class="ann-num">2</div><div class="ann-text"><b>Reason field required</b>, must be non-empty to enable "Save adjustment". Stored in audit log.</div></div>
-        <div class="ann-item"><div class="ann-num">3</div><div class="ann-text"><b>Audit log</b> captures: user ID, original score, new score, timestamp, reason. ENH-03-05.</div></div>
-        <div class="ann-item"><div class="ann-num">4</div><div class="ann-text"><b>Auto-recalculate</b>, category total and overall score recalculate immediately on save. ENH-03-05.</div></div>
-      </div>
-    </div>
-  </div>
-</div></div>
+</div>
+</div><!-- end chrome -->
+</div><!-- end e03b screen -->
 
+<!-- E03c removed per requirements -->
 <!-- ═══════════ Performance Overview (existing, reference) ═══════════ -->
 <div id="perf" class="screen">
 <div class="screen-label">Performance Overview: existing trainer screen updated with language and simulation info</div>
@@ -1598,6 +2229,49 @@ function show(id,el){
   window.scrollTo(0,0);
   return false;
 }
+function toggleCat(hdr) {
+  var body = hdr.nextElementSibling;
+  if (!body) return;
+  var hidden = body.style.display === 'none' || body.style.display === '';
+  body.style.display = hidden ? 'block' : 'none';
+  var chevron = hdr.querySelector('i');
+  if (chevron) {
+    if (hidden) {
+      chevron.className = chevron.className.replace('ti-chevron-right','ti-chevron-down');
+    } else {
+      chevron.className = chevron.className.replace('ti-chevron-down','ti-chevron-right');
+    }
+  }
+}
+function toggleDetail(btn) {
+  var body = btn.nextElementSibling;
+  var chevron = btn.querySelector('i');
+  if (!body) return;
+  var hidden = body.style.display === 'none';
+  body.style.display = hidden ? '' : 'none';
+  if (chevron) {
+    chevron.className = hidden ? 'ti ti-chevron-down' : 'ti ti-chevron-right';
+  }
+}
+function setQView(mode) {
+  var origEls = document.querySelectorAll('.q-orig');
+  var transEls = document.querySelectorAll('.q-trans');
+  if (mode === 'orig') {
+    origEls.forEach(function(e){e.style.display='';});
+    transEls.forEach(function(e){e.style.display='none';});
+    document.getElementById('qview-orig').style.background='#E87B2E';
+    document.getElementById('qview-orig').style.color='#fff';
+    document.getElementById('qview-trans').style.background='transparent';
+    document.getElementById('qview-trans').style.color='#888';
+  } else {
+    transEls.forEach(function(e){e.style.display='';});
+    origEls.forEach(function(e){e.style.display='none';});
+    document.getElementById('qview-trans').style.background='#E87B2E';
+    document.getElementById('qview-trans').style.color='#fff';
+    document.getElementById('qview-orig').style.background='transparent';
+    document.getElementById('qview-orig').style.color='#888';
+  }
+}
 var _selScenario = null, _selScorecard = null;
 function selectScenario(id, name) {
   _selScenario = id;
@@ -1617,6 +2291,7 @@ function updateSimBtn() {
   }
 }
 function nav(id){
+  if(id === 'e03a') id = 'e01c';
   show(id, null);
 }
 function setAllTypes(type) {
@@ -1632,7 +2307,6 @@ function setAllTypes(type) {
     }
   });
 }
-// On load: grey out score fields for pre-selected Binary rows
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.cat-block select').forEach(function(sel) {
     if (sel.value === 'Binary (Yes/No)') {
@@ -1649,7 +2323,6 @@ function applyTranslation(lang) {
   var nameSpan = document.getElementById('trans-lang-name');
   var targets = document.querySelectorAll('.trans-target');
   var transTexts = document.querySelectorAll('.trans-inline');
-  var sel = document.getElementById('trans-lang');
   if (!lang) {
     label.style.display = 'none';
     transTexts.forEach(function(el){ el.style.display = 'none'; });
@@ -1658,11 +2331,6 @@ function applyTranslation(lang) {
     if (nameSpan) nameSpan.textContent = lang;
     targets.forEach(function(el){ el.textContent = lang; });
     transTexts.forEach(function(el){ el.style.display = ''; });
-    // Lock the selector after first language selection to prevent repeated API calls
-    if (sel && lang) {
-      sel.disabled = true;
-      sel.title = 'Translation applied. Refresh page to change language.';
-    }
   }
 }
 </script>

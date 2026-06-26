@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Describe your story here.
+Describe your story/issue/request here.
 
 **As a** [role]
 **I need** [function/what you need]
